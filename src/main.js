@@ -21,11 +21,13 @@
     scheduleFilters: scheduleService.createDefaultFilters()
   };
 
+  const toastNotifications = app.uiAdapters.createToastNotificationRenderer(rootElement);
   let shellRenderer;
 
   const scheduleWidget = app.uiAdapters.createScheduleWidgetRenderer({
     state,
     scheduleService,
+    toastNotifications,
     translate,
     requestRender() {
       shellRenderer.render();
