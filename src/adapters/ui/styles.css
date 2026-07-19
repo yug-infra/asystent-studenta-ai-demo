@@ -477,6 +477,61 @@ button {
   font-weight: 800;
 }
 
+.toast-region {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.toast-notification {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 16px;
+  width: min(420px, calc(100vw - 44px));
+  border: 1px solid var(--app-border-strong);
+  border-left: 4px solid var(--app-success);
+  border-radius: 14px;
+  background: var(--app-surface);
+  box-shadow: 0 18px 38px rgba(31, 41, 80, 0.2);
+  color: var(--app-text);
+  padding: 16px;
+  opacity: 0;
+  pointer-events: auto;
+  transform: translateY(14px);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.toast-region.is-visible .toast-notification,
+.toast-notification:hover {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toast-notification strong,
+.toast-notification p {
+  margin: 0;
+}
+
+.toast-notification p {
+  margin-top: 6px;
+  color: var(--app-text-muted);
+}
+
+.toast-notification span {
+  min-height: 26px;
+  border: 1px solid var(--app-border);
+  border-radius: 999px;
+  background: var(--app-primary-soft);
+  color: var(--app-primary-strong);
+  padding: 4px 9px;
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
 @media (max-width: 1280px) {
   .schedule-filters {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -541,5 +596,10 @@ button {
 
   .panel__header {
     display: grid;
+  }
+
+  .toast-region {
+    right: 12px;
+    bottom: 12px;
   }
 }
