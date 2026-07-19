@@ -7,6 +7,7 @@
     const t = dependencies.translate;
     const scheduleService = dependencies.scheduleService;
     const requestRender = dependencies.requestRender;
+    const toastNotifications = dependencies.toastNotifications;
 
     function render() {
       const model = scheduleService.getScheduleViewModel(state.scheduleFilters, state.language);
@@ -110,7 +111,7 @@
               <span>${escapeHtml(item.activityType)}</span>
             </div>
             <code>${escapeHtml(item.teamName)}</code>
-            <button class="teams-button" type="button">${t("openTeams")}</button>
+            <button class="teams-button" data-teams-transition type="button">${t("openTeams")}</button>
           </article>
         </div>`;
     }
@@ -146,6 +147,16 @@
         button.addEventListener("click", () => {
           state.selectedScheduleItemId = button.dataset.scheduleSelect;
           requestRender();
+        });
+      });
+
+      rootElement.querySelectorAll("[data-teams-transition]").forEach((button) => {
+        button.addEventListener("click", () => {
+          toastNotifications.show({
+            title: t("toastTitle"),
+            message: t("toastMessage"),
+            badge: t("demoBadge")
+          });
         });
       });
     }
