@@ -43,7 +43,8 @@ Localization is decomposed into small shared files instead of one large utility 
 | File | Responsibility |
 |---|---|
 | `src/shared/i18n/resources.js` | Stores supported languages and translation dictionaries |
-| `src/shared/i18n/translator.js` | Exposes language normalization, fallback lookup and translator factory |
+| `src/shared/i18n/translator.js` | Provides internal language normalization, fallback lookup and translator factory |
+| `src/shared/i18n/index.js` | Exposes the public i18n module facade used by application/UI code |
 
 This keeps UI text out of domain code while avoiding a large mixed-purpose helper.
 
