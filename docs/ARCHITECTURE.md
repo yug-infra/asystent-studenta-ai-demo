@@ -19,7 +19,7 @@ These documents define the behavior that later code layers should satisfy.
 |---|---|---|
 | Domain | Core concepts and rules | schedule records, teachers, AI demo catalog |
 | Application | Use-case services and facades | schedule service, AI assistant service |
-| Adapters | Browser and external boundaries | schedule widget renderer, shell renderer, Teams transition adapter |
+| Adapters | Browser and external boundaries | schedule widget renderer, shell renderer, toast notification renderer, Teams transition adapter |
 | Shared | Cross-cutting frontend utilities | i18n resources/translator facade, theme tokens/service facade |
 | Data | Static demo data | schedule dataset |
 
@@ -33,6 +33,7 @@ flowchart TD
     APP --> DOMAIN["Domain Layer"]
     DATA["Static Demo Data"] --> APP
     TEAMS["Teams Adapter"] --> APP
+    TOAST["Toast Notification Adapter"] --> UI
     SHARED["Shared i18n/theme"] --> UI
 ```
 
@@ -46,6 +47,7 @@ The GitHub Pages entry point is intentionally thin:
 | `src/main.js` | Application bootstrap and dependency wiring |
 | `src/adapters/ui/shell-renderer.js` | Desktop-first shell rendering, tabs and UI events |
 | `src/adapters/ui/styles.css` | CSS variables, layout rules and responsive shell behavior |
+| `src/adapters/ui/toast-notification-renderer.js` | Small notification adapter for demo actions and future integration feedback |
 
 The shell behaves like separate workbook-style screens: the schedule tab and the AI assistant tab are not rendered as two always-visible columns. The active tab controls which screen is visible, while later detail panels can still be opened inside the selected feature.
 
@@ -68,6 +70,12 @@ The renderer does not read raw data directly. It asks the application service fo
 The schedule screen follows the original prototype composition: one feature screen with a top control area, a dense filter row, a left schedule table/list widget and a right details/Teams widget. This keeps widget types consistent across the UI while still preserving the tab boundary between schedule and AI assistant screens.
 
 The public schedule slice is documented as February-June 2026. It was parsed semi-automatically and should be treated as demo data that may need manual verification.
+
+## UI Feedback Flow
+
+Demo-only actions should still look like real user feedback. The current Teams button does not open Microsoft Graph or a production Teams deep link. Instead, it calls the toast notification adapter, which shows a small message in the bottom-right corner and keeps it visible while the user hovers over it.
+
+This preserves a clear adapter boundary: later a real Teams adapter can perform navigation and reuse the same notification adapter for success, warning or error states.
 
 ## Shared Localization
 
@@ -135,7 +143,7 @@ Some parts are intentionally demo/stub implementations:
 
 | Boundary | Current form | Future replacement |
 |---|---|---|
-| Teams transition | Frontend demo adapter | Microsoft Graph / Teams API adapter |
+| Teams transition | Frontend demo adapter and toast feedback | Microsoft Graph / Teams API adapter |
 | AI responses | Fixture/catalog data | Real AI assistant API adapter |
 | Learning resources | Planned only | Moodle / on-demand resources adapter |
 | Storage/cache | Planned only | Browser extension storage/cache adapter |
