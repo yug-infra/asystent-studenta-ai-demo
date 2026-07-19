@@ -29,7 +29,7 @@
 
   global.AsystentStudentAiDemo = {
     ...(global.AsystentStudentAiDemo || {}),
-    i18n: {
+    i18nTranslator: {
       createTranslator,
       getDictionary,
       normalizeLanguage,
