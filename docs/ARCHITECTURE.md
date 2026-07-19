@@ -19,7 +19,7 @@ These documents define the behavior that later code layers should satisfy.
 |---|---|---|
 | Domain | Core concepts and rules | schedule records, teachers, AI demo catalog |
 | Application | Use-case services and facades | schedule service, AI assistant service |
-| Adapters | Browser and external boundaries | DOM renderer, Teams transition adapter |
+| Adapters | Browser and external boundaries | DOM renderer, shell renderer, Teams transition adapter |
 | Shared | Cross-cutting frontend utilities | i18n resources/translator facade, theme tokens/service facade |
 | Data | Static demo data | schedule dataset |
 
@@ -35,6 +35,19 @@ flowchart TD
     TEAMS["Teams Adapter"] --> APP
     SHARED["Shared i18n/theme"] --> UI
 ```
+
+## App Shell
+
+The GitHub Pages entry point is intentionally thin:
+
+| File | Responsibility |
+|---|---|
+| `index.html` | Static browser entry point and script composition order |
+| `src/main.js` | Application bootstrap and dependency wiring |
+| `src/adapters/ui/shell-renderer.js` | Desktop-first shell rendering, tabs and UI events |
+| `src/adapters/ui/styles.css` | CSS variables, layout rules and responsive shell behavior |
+
+This keeps the page host separate from the UI adapter and prepares the next PRs to attach schedule and AI widgets without rewriting the shell.
 
 ## Shared Localization
 
