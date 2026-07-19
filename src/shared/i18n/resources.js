@@ -9,6 +9,9 @@
     pl: {
       appTitle: "Asystent studenta AI",
       appSubtitle: "Demo prototypu: działający moduł planu zajęć oraz symulacja przejścia do zespołu w Microsoft Teams.",
+      prototypeBadge: "Prototyp publiczny",
+      settings: "Ustawienia",
+      section: "Sekcja",
       schedule: "Plan zajęć",
       assistant: "Asystent AI",
       details: "Szczegóły / Teams",
@@ -46,11 +49,25 @@
       messagePlaceholder: "Napisz lub wybierz gotowe pytanie",
       send: "Wyślij",
       visualAnswer: "Wizualna odpowiedź",
-      detailsLink: "Szczegóły"
+      detailsLink: "Szczegóły",
+      scheduleShellTitle: "Moduł planu zajęć",
+      workingModule: "działa",
+      dataLayer: "Dane",
+      scheduleDataReady: "Plan jest gotowy do podłączenia",
+      scheduleShellCopy: "Ten ekran jest szkieletem UI. Następny krok podłączy karty, filtry i szczegóły zajęć do przygotowanego modelu domenowego.",
+      nextStep: "Następny krok",
+      widgetsNext: "Widżety planu zajęć",
+      widgetsNextCopy: "Layout jest już oddzielony od logiki, więc widżety mogą korzystać z usług aplikacyjnych zamiast mieszać dane z DOM.",
+      assistantShellTitle: "Szkic asystenta AI",
+      studentQuestionPreview: "Jakie mam teraz zajęcia?",
+      assistantAnswerPreview: "Odpowiedź asystenta będzie otwierać powiązany widok szczegółów."
     },
     en: {
       appTitle: "AI Student Assistant",
       appSubtitle: "Prototype demo: working schedule module and simulated transition to a Microsoft Teams group.",
+      prototypeBadge: "Public prototype",
+      settings: "Settings",
+      section: "Section",
       schedule: "Schedule",
       assistant: "AI Assistant",
       details: "Details / Teams",
@@ -88,7 +105,18 @@
       messagePlaceholder: "Type or select a ready question",
       send: "Send",
       visualAnswer: "Visual answer",
-      detailsLink: "Details"
+      detailsLink: "Details",
+      scheduleShellTitle: "Schedule module",
+      workingModule: "working",
+      dataLayer: "Data",
+      scheduleDataReady: "Schedule is ready to connect",
+      scheduleShellCopy: "This screen is the UI shell. The next step connects cards, filters and class details to the prepared domain model.",
+      nextStep: "Next step",
+      widgetsNext: "Schedule widgets",
+      widgetsNextCopy: "The layout is separated from logic, so widgets can use application services instead of mixing data with the DOM.",
+      assistantShellTitle: "AI assistant sketch",
+      studentQuestionPreview: "What classes do I have now?",
+      assistantAnswerPreview: "Assistant answers will open the related details view."
     }
   };
 
