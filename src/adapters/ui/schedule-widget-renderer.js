@@ -11,13 +11,20 @@
     function render() {
       const model = scheduleService.getScheduleViewModel(state.scheduleFilters, state.language);
       const options = scheduleService.getFilterOptions(state.language);
+      const selectedItem = selectActiveItem(model.items);
 
       return `
         <div class="schedule-widget">
-          <div class="schedule-stats" aria-label="${t("results")}">
-            <span><strong>${model.stats.shown}</strong> ${t("shown")}</span>
-            <span><strong>${model.stats.total}</strong> ${t("aggregates")}</span>
-            <span><strong>${model.stats.rawRecords}</strong> ${t("rawRecords")}</span>
+          <div class="schedule-toolbar">
+            <div>
+              <p class="panel__kicker">${t("schedulePeriodLabel")}</p>
+              <strong>${t("schedulePeriodValue")}</strong>
+            </div>
+            <div class="schedule-stats" aria-label="${t("results")}">
+              <span><strong>${model.stats.shown}</strong> ${t("shown")}</span>
+              <span><strong>${model.stats.total}</strong> ${t("aggregates")}</span>
+              <span><strong>${model.stats.rawRecords}</strong> ${t("rawRecords")}</span>
+            </div>
           </div>
           <div class="schedule-filters">
             ${renderSelect("zjazdId", t("zjazd"), options.zjazdy, model.filters.zjazdId)}
@@ -31,9 +38,80 @@
               <input data-schedule-filter="query" type="search" value="${escapeAttribute(model.filters.query)}" placeholder="${t("searchPlaceholder")}">
             </label>
           </div>
-          <div class="schedule-list">
-            ${model.items.length ? model.items.map(renderCard).join("") : `<p class="empty-state">${t("noCards")}</p>`}
+          <div class="schedule-workspace">
+            <section class="widget-panel" aria-label="${t("schedule")}">
+              <div class="widget-panel__header">
+                <strong>${t("schedule")}</strong>
+                <span>${t("rendered")}: ${Math.min(model.items.length, 60)} ${t("rows")}</span>
+              </div>
+              <div class="schedule-table" role="table">
+                ${renderTableHeader()}
+                <div class="schedule-table__body">
+                  ${model.items.length ? model.items.slice(0, 60).map((item) => renderRow(item, selectedItem)).join("") : `<p class="empty-state">${t("noCards")}</p>`}
+                </div>
+              </div>
+            </section>
+            <section class="widget-panel" aria-label="${t("details")}">
+              <div class="widget-panel__header">
+                <strong>${t("details")}</strong>
+                <span>${t("teamTransition")}</span>
+              </div>
+              ${selectedItem ? renderDetails(selectedItem, model) : `<p class="empty-state">${t("noCards")}</p>`}
+            </section>
           </div>
+        </div>`;
+    }
+
+    function selectActiveItem(items) {
+      if (!items.length) return null;
+
+      const selected = items.find((item) => item.id === state.selectedScheduleItemId);
+      return selected || items[0];
+    }
+
+    function renderTableHeader() {
+      return `
+        <div class="schedule-table__header" role="row">
+          <span>${t("zjazd")}</span>
+          <span>${t("day")}</span>
+          <span>${t("time")}</span>
+          <span>${t("groups")}</span>
+          <span>${t("teacher")}</span>
+          <span>${t("type")}</span>
+          <span>${t("subjectName")}</span>
+        </div>`;
+    }
+
+    function renderRow(item, selectedItem) {
+      const selected = selectedItem && item.id === selectedItem.id ? " is-selected" : "";
+      return `
+        <button class="schedule-row${selected}" data-schedule-select="${escapeAttribute(item.id)}" type="button" role="row">
+          <span>${t("zjazd")} ${escapeHtml(String(item.zjazdNumber))}</span>
+          <span>${escapeHtml(item.dayLabel)}</span>
+          <span>${escapeHtml(item.timeFrom)}-${escapeHtml(item.timeTo)}</span>
+          <span><strong>${escapeHtml(item.groupSummary)}</strong><small>${escapeHtml(item.subjectCode)}</small></span>
+          <span>${escapeHtml(item.teacherLabel)}</span>
+          <span>${escapeHtml(item.typeLabel)}</span>
+          <span>${escapeHtml(item.subjectRaw)}</span>
+        </button>`;
+    }
+
+    function renderDetails(item, model) {
+      return `
+        <div class="schedule-details">
+          <p class="details-hint">${t("detailsHint")} ${model.stats.shown}/${model.stats.total}.</p>
+          <article class="details-card">
+            <p class="panel__kicker">${escapeHtml(item.subjectCode)} · ${escapeHtml(item.typeLabel)}</p>
+            <h3>${escapeHtml(item.subjectRaw)}</h3>
+            <p>${escapeHtml(item.dayLabel)} · ${escapeHtml(item.timeFrom)}-${escapeHtml(item.timeTo)} · ${t("zjazd")} ${escapeHtml(String(item.zjazdNumber))}</p>
+            <div class="details-tags">
+              <span>${escapeHtml(item.teacherLabel)}</span>
+              <span>${escapeHtml(item.groupSummary)}</span>
+              <span>${escapeHtml(item.activityType)}</span>
+            </div>
+            <code>${escapeHtml(item.teamName)}</code>
+            <button class="teams-button" type="button">${t("openTeams")}</button>
+          </article>
         </div>`;
     }
 
@@ -51,28 +129,6 @@
         </label>`;
     }
 
-    function renderCard(item) {
-      return `
-        <article class="schedule-card">
-          <div class="schedule-card__time">
-            <span>${escapeHtml(item.dayLabel)}</span>
-            <strong>${escapeHtml(item.timeFrom)}-${escapeHtml(item.timeTo)}</strong>
-          </div>
-          <div class="schedule-card__body">
-            <div class="schedule-card__title-row">
-              <h3>${escapeHtml(item.subjectRaw)}</h3>
-              <span class="status-pill status-pill--demo">${escapeHtml(item.typeLabel)}</span>
-            </div>
-            <dl class="schedule-meta">
-              <div><dt>${t("zjazd")}</dt><dd>${escapeHtml(String(item.zjazdNumber))}</dd></div>
-              <div><dt>${t("groups")}</dt><dd>${escapeHtml(item.groupSummary)}</dd></div>
-              <div><dt>${t("teacher")}</dt><dd>${escapeHtml(item.teacherLabel)}</dd></div>
-              <div><dt>${t("details")}</dt><dd>${escapeHtml(item.teamName)}</dd></div>
-            </dl>
-          </div>
-        </article>`;
-    }
-
     function bind(rootElement) {
       rootElement.querySelectorAll("[data-schedule-filter]").forEach((field) => {
         field.addEventListener("change", () => updateFilter(field));
@@ -85,6 +141,13 @@
           });
         }
       });
+
+      rootElement.querySelectorAll("[data-schedule-select]").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.selectedScheduleItemId = button.dataset.scheduleSelect;
+          requestRender();
+        });
+      });
     }
 
     function updateFilter(field) {
@@ -92,6 +155,7 @@
         ...state.scheduleFilters,
         [field.dataset.scheduleFilter]: field.value
       };
+      state.selectedScheduleItemId = "";
       requestRender();
     }
 
@@ -112,7 +176,7 @@
   }
 
   global.AsystentStudentAiDemo = {
-    ...(global.AsystentStudentAiDemo || {}),
+    ...(global.AsystStudentAiDemo || {}),
     uiAdapters: {
       ...(global.AsystentStudentAiDemo.uiAdapters || {}),
       createScheduleWidgetRenderer
