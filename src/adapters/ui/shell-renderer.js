@@ -6,11 +6,13 @@
     const state = dependencies.state;
     const t = dependencies.translate;
     const applyTheme = dependencies.applyTheme;
+    const scheduleWidget = dependencies.scheduleWidget;
 
     function render() {
       applyTheme(document.documentElement, state.theme.getTheme());
       rootElement.innerHTML = buildShellMarkup();
       bindEvents();
+      scheduleWidget.bind(rootElement);
     }
 
     function buildShellMarkup() {
@@ -50,18 +52,7 @@
                 </div>
                 <span class="status-pill">${t("workingModule")}</span>
               </div>
-              <div class="placeholder-grid" aria-label="${t("scheduleShellTitle")}">
-                <article class="placeholder-card">
-                  <span class="placeholder-card__label">${t("dataLayer")}</span>
-                  <strong>${t("scheduleDataReady")}</strong>
-                  <p>${t("scheduleShellCopy")}</p>
-                </article>
-                <article class="placeholder-card">
-                  <span class="placeholder-card__label">${t("nextStep")}</span>
-                  <strong>${t("widgetsNext")}</strong>
-                  <p>${t("widgetsNextCopy")}</p>
-                </article>
-              </div>
+              ${scheduleWidget.render()}
             </section>
 
             <section class="panel panel--assistant" aria-labelledby="assistant-title">

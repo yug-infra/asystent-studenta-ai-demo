@@ -19,7 +19,7 @@ These documents define the behavior that later code layers should satisfy.
 |---|---|---|
 | Domain | Core concepts and rules | schedule records, teachers, AI demo catalog |
 | Application | Use-case services and facades | schedule service, AI assistant service |
-| Adapters | Browser and external boundaries | DOM renderer, shell renderer, Teams transition adapter |
+| Adapters | Browser and external boundaries | schedule widget renderer, shell renderer, Teams transition adapter |
 | Shared | Cross-cutting frontend utilities | i18n resources/translator facade, theme tokens/service facade |
 | Data | Static demo data | schedule dataset |
 
@@ -48,6 +48,20 @@ The GitHub Pages entry point is intentionally thin:
 | `src/adapters/ui/styles.css` | CSS variables, layout rules and responsive shell behavior |
 
 This keeps the page host separate from the UI adapter and prepares the next PRs to attach schedule and AI widgets without rewriting the shell.
+
+## Schedule Flow
+
+The schedule feature is split across data, domain, application and UI adapter files:
+
+| File | Responsibility |
+|---|---|
+| `data/schedule-data.js` | Sanitized static public schedule slice |
+| `src/domain/schedule/teachers.js` | Manual teacher registry and aliases |
+| `src/domain/schedule/schedule-domain.js` | Normalization, aggregation, labels and filtering rules |
+| `src/application/schedule/schedule-service.js` | Filter defaults, filter options, stats and view models |
+| `src/adapters/ui/schedule-widget-renderer.js` | Browser rendering and UI event handling for filters/cards |
+
+The renderer does not read raw data directly. It asks the application service for a view model and then renders it.
 
 ## Shared Localization
 
