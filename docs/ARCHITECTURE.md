@@ -65,6 +65,10 @@ The schedule feature is split across data, domain, application and UI adapter fi
 
 The renderer does not read raw data directly. It asks the application service for a view model and then renders it.
 
+The schedule screen follows the original prototype composition: one feature screen with a top control area, a dense filter row, a left schedule table/list widget and a right details/Teams widget. This keeps widget types consistent across the UI while still preserving the tab boundary between schedule and AI assistant screens.
+
+The public schedule slice is documented as February-June 2026. It was parsed semi-automatically and should be treated as demo data that may need manual verification.
+
 ## Shared Localization
 
 Localization is decomposed into small shared files instead of one large utility file:
