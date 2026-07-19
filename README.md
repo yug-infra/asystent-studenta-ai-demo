@@ -19,7 +19,7 @@ The schedule part is implemented as working frontend logic. The AI assistant are
 
 ## Schedule Data Note
 
-The public schedule dataset was parsed semi-automatically from prototype source material. Excel/source references and raw cell identifiers are intentionally removed from this repository. Because the parsing process was semi-automatic, some schedule entries may still require manual verification.
+The public schedule dataset represents the February-June 2026 schedule slice used by the prototype. It was parsed semi-automatically from prototype source material. Excel/source references and raw cell identifiers are intentionally removed from this repository. Because the parsing process was semi-automatic, some schedule entries may still require manual verification.
 
 ## Student And Teacher Value
 
