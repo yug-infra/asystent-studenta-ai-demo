@@ -17,6 +17,10 @@ The current prototype focuses on the schedule workflow:
 
 The schedule part is implemented as working frontend logic. The AI assistant area is a prototype/demo layer: it shows the intended interaction model, visual responses and future extension points, but it is not connected to a production AI or Microsoft API backend in this public demo.
 
+## Schedule Data Note
+
+The public schedule dataset was parsed semi-automatically from prototype source material. Excel/source references and raw cell identifiers are intentionally removed from this repository. Because the parsing process was semi-automatic, some schedule entries may still require manual verification.
+
 ## Intended Product Context
 
 The intended product is a desktop-first browser extension or plugin for students who already use Microsoft Teams. In this model, the user is authenticated in Teams by Microsoft, and the assistant layer helps the student navigate study-related information faster.
