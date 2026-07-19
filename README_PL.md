@@ -19,6 +19,10 @@ W obecnej wersji prototypu dziala modul planu zajec:
 
 Czesc AI jest w tej publicznej wersji warstwa demonstracyjna. Pokazuje proponowany sposob interakcji, sceny wizualne i kierunek rozwoju, ale nie jest jeszcze polaczona z produkcyjnym API AI ani z Microsoft Graph.
 
+## Uwaga dotyczaca danych planu
+
+Publiczny zestaw danych planu zajec zostal przygotowany przez polautomatyczne parsowanie materialu zrodlowego prototypu. Odwolania do Excela, identyfikatory komorek i inne techniczne slady zrodla zostaly celowo usuniete z repozytorium. Poniewaz parsowanie bylo polautomatyczne, czesc wpisow moze wymagac recznej weryfikacji.
+
 ## Kierunek rozwoju
 
 W kolejnych etapach projekt moze zostac rozszerzony o:
