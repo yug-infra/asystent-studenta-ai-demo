@@ -70,4 +70,4 @@ Dokumentacja techniczna bedzie rozwijana w plikach Markdown. Diagramy w README m
 
 Repozytorium jest opublikowane jako publiczna demonstracja prototypu do celow edukacyjnych i konkursowych.
 
-All rights reserved. Kod zrodlowy, koncepcja UI, dokumentacja oraz materialy prototypu nie moga byc kopiowane, ponownie wykorzystywane, rozpowschniane ani uzywane jako podstawa prac pochodnych bez pisemnej zgody autora.
+All rights reserved. Kod zrodlowy, koncepcja UI, dokumentacja oraz materialy prototypu nie moga byc kopiowane, ponownie wykorzystywane, rozpowszechniane ani uzywane jako podstawa prac pochodnych bez pisemnej zgody autora.
