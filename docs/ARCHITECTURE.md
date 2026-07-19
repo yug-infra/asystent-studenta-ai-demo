@@ -47,6 +47,8 @@ The GitHub Pages entry point is intentionally thin:
 | `src/adapters/ui/shell-renderer.js` | Desktop-first shell rendering, tabs and UI events |
 | `src/adapters/ui/styles.css` | CSS variables, layout rules and responsive shell behavior |
 
+The shell behaves like separate workbook-style screens: the schedule tab and the AI assistant tab are not rendered as two always-visible columns. The active tab controls which screen is visible, while later detail panels can still be opened inside the selected feature.
+
 This keeps the page host separate from the UI adapter and prepares the next PRs to attach schedule and AI widgets without rewriting the shell.
 
 ## Schedule Flow
