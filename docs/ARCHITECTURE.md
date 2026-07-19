@@ -20,7 +20,7 @@ These documents define the behavior that later code layers should satisfy.
 | Domain | Core concepts and rules | schedule records, teachers, AI demo catalog |
 | Application | Use-case services and facades | schedule service, AI assistant service |
 | Adapters | Browser and external boundaries | DOM renderer, Teams transition adapter |
-| Shared | Cross-cutting frontend utilities | i18n resources and translator facade |
+| Shared | Cross-cutting frontend utilities | i18n resources/translator facade, theme tokens/service facade |
 | Data | Static demo data | schedule dataset |
 
 ## Dependency Direction
@@ -47,6 +47,18 @@ Localization is decomposed into small shared files instead of one large utility 
 | `src/shared/i18n/index.js` | Exposes the public i18n module facade used by application/UI code |
 
 This keeps UI text out of domain code while avoiding a large mixed-purpose helper.
+
+## Shared Theme
+
+Theme handling follows the same small-module rule as localization:
+
+| File | Responsibility |
+|---|---|
+| `src/shared/theme/tokens.js` | Stores semantic theme names, spacing/radius tokens and day/night palettes |
+| `src/shared/theme/theme-service.js` | Normalizes theme names, creates theme state and applies CSS variables to a target element |
+| `src/shared/theme/index.js` | Exposes the public theme facade used by UI adapters |
+
+The theme module is shared infrastructure. It does not know about schedule records, AI answers or Teams navigation.
 
 ## Why This Shape
 
