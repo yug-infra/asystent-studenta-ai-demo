@@ -1,0 +1,3 @@
+.toast-region:not(.is-visible) .toast-notification {
+  pointer-events: none;
+}
