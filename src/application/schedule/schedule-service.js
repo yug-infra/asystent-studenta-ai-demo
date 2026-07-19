@@ -21,9 +21,10 @@
 
     function getFilterOptions(lang) {
       const view = createView(lang);
+      const sessionLabel = lang === "en" ? "Session" : "Zjazd";
 
       return {
-        zjazdy: toOptions(view, "zjazdId", (item) => `Zjazd ${item.zjazdNumber}`),
+        zjazdy: toOptions(view, "zjazdId", (item) => `${sessionLabel} ${item.zjazdNumber}`),
         days: toOptions(view, "dayId", (item) => item.dayLabel),
         groups: toCollectionOptions(view, "groupIds", "groupLabels"),
         teachers: toOptions(view, "teacherId", (item) => item.teacherLabel),
