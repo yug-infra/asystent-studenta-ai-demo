@@ -9,19 +9,39 @@
     return;
   }
 
+  const scheduleService = app.scheduleApplication.createScheduleService(
+    global.AsystentStudentScheduleData || [],
+    app.scheduleDomain
+  );
+
   const state = {
     activeTab: "schedule",
     language: app.i18n.DEFAULT_LANGUAGE,
-    theme: app.theme.createThemeState(app.theme.DEFAULT_THEME)
+    theme: app.theme.createThemeState(app.theme.DEFAULT_THEME),
+    scheduleFilters: scheduleService.createDefaultFilters()
   };
 
-  const shellRenderer = app.uiAdapters.createShellRenderer(rootElement, {
+  let shellRenderer;
+
+  const scheduleWidget = app.uiAdapters.createScheduleWidgetRenderer({
     state,
-    translate(key) {
-      return app.i18n.translate(state.language, key);
-    },
+    scheduleService,
+    translate,
+    requestRender() {
+      shellRenderer.render();
+    }
+  });
+
+  shellRenderer = app.uiAdapters.createShellRenderer(rootElement, {
+    state,
+    scheduleWidget,
+    translate,
     applyTheme: app.theme.applyThemeToElement
   });
 
   shellRenderer.render();
+
+  function translate(key) {
+    return app.i18n.translate(state.language, key);
+  }
 })(window);
