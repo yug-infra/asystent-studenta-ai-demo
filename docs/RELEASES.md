@@ -50,6 +50,7 @@ Expected scope:
 - English and Polish README;
 - roadmap, backlog, architecture docs and release notes;
 - working schedule module;
+- localization and day/night theme foundations;
 - AI prototype simulation;
 - desktop-first GitHub Pages demo;
 - clear explanation of stub/demo adapters and future integration points.
@@ -62,5 +63,6 @@ Before tagging a public release:
 - README explains current working scope and AI prototype limitation.
 - Polish overview is suitable for WWSI review.
 - Schedule module works without backend services.
+- Day/night theme switching is visible in the UI.
 - AI prototype behavior is clearly labeled as demo/simulation.
 - Release notes mention the final public demo version.

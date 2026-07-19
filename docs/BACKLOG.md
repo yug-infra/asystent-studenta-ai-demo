@@ -10,8 +10,8 @@ This backlog mirrors the main GitHub Issues used to build the public demo step b
 | #3 | Planning | Add roadmap, backlog, release notes and architecture docs | Done |
 | #4 | Analysis | Define user stories and use cases | Done |
 | #5 | Domain | Add schedule dataset and domain normalization | Done |
-| #6 | Shared | Add localization foundation | In progress |
-| #7 | UI Foundation | Add theme foundation | Planned |
+| #6 | Shared | Add localization foundation | Done |
+| #7 | UI Foundation | Add theme foundation | In review |
 | #8 | App Shell | Build desktop-first layout shell | Planned |
 | #9 | Schedule MVP | Implement schedule widgets and application flow | Planned |
 | #10 | Integration Boundary | Add Teams transition adapter | Planned |
