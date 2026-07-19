@@ -21,6 +21,10 @@ The schedule part is implemented as working frontend logic. The AI assistant are
 
 The public schedule dataset was parsed semi-automatically from prototype source material. Excel/source references and raw cell identifiers are intentionally removed from this repository. Because the parsing process was semi-automatic, some schedule entries may still require manual verification.
 
+## Student And Teacher Value
+
+The primary user is a student, but the same schedule layer can also help teachers. A teacher can use the assistant-style view to quickly understand where and when their classes are planned, which groups are involved and which Teams context should be opened next.
+
 ## Intended Product Context
 
 The intended product is a desktop-first browser extension or plugin for students who already use Microsoft Teams. In this model, the user is authenticated in Teams by Microsoft, and the assistant layer helps the student navigate study-related information faster.
