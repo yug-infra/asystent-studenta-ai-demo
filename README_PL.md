@@ -23,6 +23,10 @@ Czesc AI jest w tej publicznej wersji warstwa demonstracyjna. Pokazuje proponowa
 
 Publiczny zestaw danych planu zajec zostal przygotowany przez polautomatyczne parsowanie materialu zrodlowego prototypu. Odwolania do Excela, identyfikatory komorek i inne techniczne slady zrodla zostaly celowo usuniete z repozytorium. Poniewaz parsowanie bylo polautomatyczne, czesc wpisow moze wymagac recznej weryfikacji.
 
+## Wartosc dla studentow i prowadzacych
+
+Glownym uzytkownikiem prototypu jest student, ale ten sam modul planu moze pomoc rowniez prowadzacym. Wykladowca moze szybciej sprawdzic, gdzie i kiedy ma zaplanowane zajecia, z ktorymi grupami pracuje oraz jaki kontekst Teams powinien otworzyc jako nastepny.
+
 ## Kierunek rozwoju
 
 W kolejnych etapach projekt moze zostac rozszerzony o:
