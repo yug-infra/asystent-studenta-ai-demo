@@ -4,6 +4,15 @@ The public demo is organized as a frontend-only prototype using a lightweight He
 
 The goal is not to imitate a backend-heavy enterprise system. The goal is to keep the browser prototype understandable, replaceable and ready for future real integrations.
 
+## Analysis Documents
+
+The implementation plan is driven by student-facing scenarios:
+
+- [User Stories](USER_STORIES.md)
+- [Use Cases](USE_CASES.md)
+
+These documents define the behavior that later code layers should satisfy.
+
 ## Layers
 
 | Layer | Responsibility | Example |
