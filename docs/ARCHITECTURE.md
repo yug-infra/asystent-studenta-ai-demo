@@ -20,7 +20,7 @@ These documents define the behavior that later code layers should satisfy.
 | Domain | Core concepts and rules | schedule records, teachers, AI demo catalog |
 | Application | Use-case services and facades | schedule service, AI assistant service |
 | Adapters | Browser and external boundaries | DOM renderer, Teams transition adapter |
-| Shared | Cross-cutting frontend utilities | i18n resources |
+| Shared | Cross-cutting frontend utilities | i18n resources and translator facade |
 | Data | Static demo data | schedule dataset |
 
 ## Dependency Direction
@@ -35,6 +35,18 @@ flowchart TD
     TEAMS["Teams Adapter"] --> APP
     SHARED["Shared i18n/theme"] --> UI
 ```
+
+## Shared Localization
+
+Localization is decomposed into small shared files instead of one large utility file:
+
+| File | Responsibility |
+|---|---|
+| `src/shared/i18n/resources.js` | Stores supported languages and translation dictionaries |
+| `src/shared/i18n/translator.js` | Provides internal language normalization, fallback lookup and translator factory |
+| `src/shared/i18n/index.js` | Exposes the public i18n module facade used by application/UI code |
+
+This keeps UI text out of domain code while avoiding a large mixed-purpose helper.
 
 ## Why This Shape
 
