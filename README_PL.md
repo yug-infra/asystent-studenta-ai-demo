@@ -21,7 +21,7 @@ Czesc AI jest w tej publicznej wersji warstwa demonstracyjna. Pokazuje proponowa
 
 ## Uwaga dotyczaca danych planu
 
-Publiczny zestaw danych planu zajec zostal przygotowany przez polautomatyczne parsowanie materialu zrodlowego prototypu. Odwolania do Excela, identyfikatory komorek i inne techniczne slady zrodla zostaly celowo usuniete z repozytorium. Poniewaz parsowanie bylo polautomatyczne, czesc wpisow moze wymagac recznej weryfikacji.
+Publiczny zestaw danych planu zajec przedstawia wycinek planu na okres luty-czerwiec 2026 uzyty w prototypie. Zostal przygotowany przez polautomatyczne parsowanie materialu zrodlowego prototypu. Odwolania do Excela, identyfikatory komorek i inne techniczne slady zrodla zostaly celowo usuniete z repozytorium. Poniewaz parsowanie bylo polautomatyczne, czesc wpisow moze wymagac recznej weryfikacji.
 
 ## Wartosc dla studentow i prowadzacych
 
