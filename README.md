@@ -2,6 +2,8 @@
 
 Public prototype demo of a student AI assistant concept for Microsoft Teams schedule workflow.
 
+Polish overview: [README_PL.md](README_PL.md)
+
 This repository is a standalone public demo extracted from a larger browser-plugin idea. The target product is not a separate student portal. It is designed as a desktop browser add-on / overlay for a user who is already signed in to Microsoft Teams in the browser.
 
 ## Current Prototype Scope
