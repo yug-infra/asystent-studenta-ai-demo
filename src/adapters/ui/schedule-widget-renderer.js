@@ -176,7 +176,7 @@
   }
 
   global.AsystentStudentAiDemo = {
-    ...(global.AsystStudentAiDemo || {}),
+    ...(global.AsystentStudentAiDemo || {}),
     uiAdapters: {
       ...(global.AsystentStudentAiDemo.uiAdapters || {}),
       createScheduleWidgetRenderer
