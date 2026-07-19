@@ -30,13 +30,16 @@
     }
 
     function ensureContainer() {
-      if (containerElement) return;
+      if (!containerElement) {
+        containerElement = document.createElement("div");
+        containerElement.className = "toast-region";
+        containerElement.setAttribute("aria-live", "polite");
+        containerElement.setAttribute("aria-atomic", "true");
+      }
 
-      containerElement = document.createElement("div");
-      containerElement.className = "toast-region";
-      containerElement.setAttribute("aria-live", "polite");
-      containerElement.setAttribute("aria-atomic", "true");
-      rootElement.appendChild(containerElement);
+      if (!containerElement.isConnected) {
+        rootElement.appendChild(containerElement);
+      }
     }
 
     function renderNotification(notification) {
