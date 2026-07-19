@@ -12,8 +12,8 @@ This backlog mirrors the main GitHub Issues used to build the public demo step b
 | #5 | Domain | Add schedule dataset and domain normalization | Done |
 | #6 | Shared | Add localization foundation | Done |
 | #7 | UI Foundation | Add theme foundation | Done |
-| #8 | App Shell | Build desktop-first layout shell | In review |
-| #9 | Schedule MVP | Implement schedule widgets and application flow | Planned |
+| #8 | App Shell | Build desktop-first layout shell | Done |
+| #9 | Schedule MVP | Implement schedule widgets and application flow | In review |
 | #10 | Integration Boundary | Add Teams transition adapter | Planned |
 | #11 | AI Prototype | Add AI prototype catalog and chat flow | Planned |
 | #12 | Release | Prepare public demo release and GitHub Pages | Planned |
