@@ -75,15 +75,24 @@
 
     function bind(rootElement) {
       rootElement.querySelectorAll("[data-schedule-filter]").forEach((field) => {
-        const eventName = field.tagName === "INPUT" ? "input" : "change";
-        field.addEventListener(eventName, () => {
-          state.scheduleFilters = {
-            ...state.scheduleFilters,
-            [field.dataset.scheduleFilter]: field.value
-          };
-          requestRender();
-        });
+        field.addEventListener("change", () => updateFilter(field));
+
+        if (field.tagName === "INPUT") {
+          field.addEventListener("keydown", (event) => {
+            if (event.key === "Enter") {
+              updateFilter(field);
+            }
+          });
+        }
       });
+    }
+
+    function updateFilter(field) {
+      state.scheduleFilters = {
+        ...state.scheduleFilters,
+        [field.dataset.scheduleFilter]: field.value
+      };
+      requestRender();
     }
 
     return { bind, render };
