@@ -67,7 +67,7 @@ Student sees only schedule entries matching the selected criteria.
 
 - `src/application/schedule/schedule-service.js`
 - `src/domain/schedule/schedule-domain.js`
-- `src/shared/i18n.js`
+- `src/shared/i18n/*`
 - `src/adapters/ui/dom-renderer.js`
 
 ## UC-03: Open Teams Context From Schedule
