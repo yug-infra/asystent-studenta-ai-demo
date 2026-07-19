@@ -47,6 +47,8 @@ The GitHub Pages entry point is intentionally thin:
 | `src/adapters/ui/shell-renderer.js` | Desktop-first shell rendering, tabs and UI events |
 | `src/adapters/ui/styles.css` | CSS variables, layout rules and responsive shell behavior |
 
+The shell behaves like separate workbook-style screens: the schedule tab and the AI assistant tab are not rendered as two always-visible columns. The active tab controls which screen is visible, while later detail panels can still be opened inside the selected feature.
+
 This keeps the page host separate from the UI adapter and prepares the next PRs to attach schedule and AI widgets without rewriting the shell.
 
 ## Schedule Flow
@@ -62,6 +64,10 @@ The schedule feature is split across data, domain, application and UI adapter fi
 | `src/adapters/ui/schedule-widget-renderer.js` | Browser rendering and UI event handling for filters/cards |
 
 The renderer does not read raw data directly. It asks the application service for a view model and then renders it.
+
+The schedule screen follows the original prototype composition: one feature screen with a top control area, a dense filter row, a left schedule table/list widget and a right details/Teams widget. This keeps widget types consistent across the UI while still preserving the tab boundary between schedule and AI assistant screens.
+
+The public schedule slice is documented as February-June 2026. It was parsed semi-automatically and should be treated as demo data that may need manual verification.
 
 ## Shared Localization
 
