@@ -18,6 +18,7 @@ This backlog mirrors the main GitHub Issues used to build the public demo step b
 | #11 | AI Prototype | Add AI prototype catalog and chat flow | Done |
 | #12 | Release | Prepare public demo release and GitHub Pages | Planned |
 | #27 | AI Prototype | Refine visual response panel interaction | Done |
+| #29 | AI Prototype | Refine prepared question submit and select styling | Done |
 
 ## Product Backlog
 
@@ -37,6 +38,8 @@ This backlog mirrors the main GitHub Issues used to build the public demo step b
 ### AI Prototype
 
 - Provide a limited set of prepared student questions.
+- Submit prepared questions immediately when selected.
+- Keep the manual composer for custom questions and demo AI-not-connected fallback.
 - Keep chat history visible and cumulative.
 - Open visual response panels only from explicit clicks on AI answers.
 - Clear the visual response panel when a new question is submitted.
