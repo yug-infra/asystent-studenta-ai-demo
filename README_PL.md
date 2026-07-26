@@ -10,12 +10,14 @@ Taki model pozwala budowac pomocniczy interfejs bez przejmowania logowania od Mi
 
 ## Co dziala teraz
 
-W obecnej wersji prototypu dziala modul planu zajec:
+W obecnej wersji prototypu dziala modul planu zajec oraz demonstracyjny ekran Asystenta AI:
 
 - wyswietlanie danych planu zajec;
 - filtrowanie i porzadkowanie informacji;
 - przygotowanie interfejsu, ktory moze byc wykorzystany jako nakladka na Teams;
-- demonstracja przejscia z planu zajec do kontekstu zespolu w Microsoft Teams.
+- demonstracja przejscia z planu zajec do kontekstu zespolu w Microsoft Teams;
+- gotowe pytania AI, narastajaca historia czatu i wizualne sceny odpowiedzi;
+- limit pieciu pytan w publicznym demo oraz fallback dla pytan wpisanych recznie.
 
 Czesc AI jest w tej publicznej wersji warstwa demonstracyjna. Pokazuje proponowany sposob interakcji, sceny wizualne i kierunek rozwoju, ale nie jest jeszcze polaczona z produkcyjnym API AI ani z Microsoft Graph.
 
