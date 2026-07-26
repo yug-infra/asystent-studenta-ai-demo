@@ -55,6 +55,7 @@ button {
   min-height: 0;
   overflow: hidden;
   padding: 18px;
+  font-size: 14px;
 }
 
 .app-shell {
@@ -64,7 +65,7 @@ button {
   min-height: 0;
   border: 1px solid var(--app-border);
   border-radius: 18px;
-  background: var(--app-surface);
+  background: linear-gradient(180deg, #ffffff, #f7f8fe);
   box-shadow: 0 18px 45px rgba(31, 41, 80, 0.12);
   overflow: hidden;
 }
@@ -73,13 +74,13 @@ button {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 20px;
-  padding: 22px 24px 16px;
-  border-bottom: 1px solid var(--app-border);
+  gap: 16px;
+  padding: 18px;
+  border-bottom: 0;
 }
 
 .app-title-block {
-  max-width: 760px;
+  max-width: 720px;
 }
 
 .app-kicker,
@@ -100,13 +101,17 @@ button {
 }
 
 .app-title-block h1 {
-  font-size: 28px;
+  color: var(--app-text);
+  font-size: 22px;
+  font-weight: 900;
 }
 
 .app-title-block p:not(.app-kicker),
 .placeholder-card p {
-  margin: 8px 0 0;
+  margin: 5px 0 0;
   color: var(--app-text-muted);
+  font-size: 13px;
+  line-height: 1.35;
 }
 
 .app-controls {
@@ -133,6 +138,7 @@ button {
   border-radius: 999px;
   background: transparent;
   color: var(--app-text-muted);
+  font-size: 13px;
   font-weight: 800;
 }
 
@@ -151,7 +157,7 @@ button {
   display: none;
   min-width: 0;
   min-height: 0;
-  padding: 22px;
+  padding: 0 18px 18px;
   overflow: hidden;
 }
 
@@ -425,6 +431,7 @@ button {
   border-radius: 10px;
   background: var(--app-success);
   color: #ffffff;
+  font-size: 13px;
   font-weight: 900;
 }
 

@@ -26,7 +26,6 @@
         <div class="app-shell">
           <header class="app-header">
             <div class="app-title-block">
-              <p class="app-kicker">${t("prototypeBadge")}</p>
               <h1>${t("appTitle")}</h1>
               <p>${t("appSubtitle")}</p>
             </div>
