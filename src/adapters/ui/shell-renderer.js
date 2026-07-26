@@ -8,6 +8,7 @@
     const applyTheme = dependencies.applyTheme;
     const assistantWidget = dependencies.assistantWidget;
     const scheduleWidget = dependencies.scheduleWidget;
+    const persistUiState = dependencies.persistUiState || function noop() {};
 
     function render() {
       applyTheme(document.documentElement, state.theme.getTheme());
@@ -75,6 +76,7 @@
       rootElement.querySelectorAll("[data-tab]").forEach((button) => {
         button.addEventListener("click", () => {
           state.activeTab = button.dataset.tab;
+          persistUiState();
           render();
         });
       });

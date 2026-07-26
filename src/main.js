@@ -14,14 +14,19 @@
     app.scheduleDomain
   );
   const assistantService = app.assistantApplication.createAssistantService(app.aiDemoCatalog);
+  const storedUiState = readStoredUiState();
 
   const state = {
-    activeTab: "schedule",
+    activeTab: normalizeActiveTab(storedUiState.activeTab),
     assistant: assistantService.createDefaultState(),
     language: app.i18n.DEFAULT_LANGUAGE,
     theme: app.theme.createThemeState(app.theme.DEFAULT_THEME),
     scheduleFilters: scheduleService.createDefaultFilters()
   };
+
+  if (app.aiDemoCatalog.SCENES[storedUiState.activeAssistantSceneId]) {
+    state.assistant.activeSceneId = storedUiState.activeAssistantSceneId;
+  }
 
   const toastNotifications = app.uiAdapters.createToastNotificationRenderer(rootElement);
   const teamsTransition = app.teamsAdapters.createTeamsTransitionAdapter({
@@ -36,6 +41,7 @@
     teamsTransition,
     translate,
     requestRender() {
+      persistUiState();
       shellRenderer.render();
     }
   });
@@ -46,6 +52,7 @@
     notifications: toastNotifications,
     translate,
     requestRender() {
+      persistUiState();
       shellRenderer.render();
     }
   });
@@ -55,6 +62,7 @@
     assistantWidget,
     scheduleWidget,
     translate,
+    persistUiState,
     applyTheme: app.theme.applyThemeToElement
   });
 
@@ -62,5 +70,32 @@
 
   function translate(key) {
     return app.i18n.translate(state.language, key);
+  }
+
+  function normalizeActiveTab(value) {
+    return value === "assistant" ? "assistant" : "schedule";
+  }
+
+  function readStoredUiState() {
+    try {
+      return JSON.parse(global.localStorage?.getItem("asystent-studenta-ai-demo.ui-state.v1") || "{}") || {};
+    } catch (error) {
+      return {};
+    }
+  }
+
+  function persistUiState() {
+    writeStoredUiState({
+      activeAssistantSceneId: state.assistant.activeSceneId || "",
+      activeTab: state.activeTab
+    });
+  }
+
+  function writeStoredUiState(value) {
+    try {
+      global.localStorage?.setItem("asystent-studenta-ai-demo.ui-state.v1", JSON.stringify(value));
+    } catch (error) {
+      // localStorage may be unavailable in private or embedded browser contexts.
+    }
   }
 })(window);
