@@ -90,6 +90,11 @@
       ],
       actionLabel: { pl: "Pokaż przejście Teams", en: "Show Teams transition" }
     },
+    "aws-progress": {
+      kicker: "Demo / AWS",
+      title: { pl: "AWS - laboratoria do wykonania", en: "AWS labs to complete" },
+      copy: { pl: "Postęp jest pokazany jako fixture: 3 wykonane laboratoria i 5 kolejnych do zamknięcia.", en: "Progress is shown as a fixture: 3 completed labs and 5 more to close." }
+    },
     "aws-resources": {
       kicker: "Demo / centrum zasobów",
       title: { pl: "Wszystkie zasoby AWS", en: "All AWS resources" },
