@@ -78,7 +78,6 @@
 
   function getTeacherSource(row) {
     if (isUsableTeacherText(row.teacherRaw)) return row.teacherRaw;
-    if (isUsableTeacherText(row.segmentRaw)) return row.segmentRaw;
     if (isUsableTeacherText(row.roomRaw)) return row.roomRaw;
 
     return row.teacherRaw || row.teacherId || "—";
