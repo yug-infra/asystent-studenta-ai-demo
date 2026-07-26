@@ -129,8 +129,8 @@
       copy: { pl: "Priorytety są przygotowane jako fixture i później mogą pochodzić z realnych integracji.", en: "Priorities are prepared as fixtures and can later come from real integrations." },
       priorities: [
         { title: "AWS", text: { pl: "5 laboratoriów do wykonania", en: "5 labs to complete" }, sceneId: "aws-progress" },
-        { title: { pl: "Bazy danych", en: "Databases" }, text: { pl: "2 zadania do oddania", en: "2 assignments to submit" }, sceneId: "feedback" },
-        { title: { pl: "Seminarium", en: "Seminar" }, text: { pl: "1 krótka notatka", en: "1 short note" }, sceneId: "feedback" }
+        { title: { pl: "Bazy danych", en: "Databases" }, text: { pl: "2 zadania do oddania", en: "2 assignments to submit" }, toastAction: "mentor-databases" },
+        { title: { pl: "Seminarium", en: "Seminar" }, text: { pl: "1 krótka notatka", en: "1 short note" }, toastAction: "mentor-seminar" }
       ]
     },
     "teacher-meeting": {
