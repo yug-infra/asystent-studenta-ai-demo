@@ -372,6 +372,10 @@ button {
   font-size: 11px;
 }
 
+.schedule-row__mobile-meta {
+  display: none;
+}
+
 .schedule-details {
   display: grid;
   gap: 12px;
@@ -649,6 +653,10 @@ button {
 }
 
 @media (max-width: 640px) {
+  body {
+    background: var(--app-surface);
+  }
+
   .app-title-block h1 {
     font-size: 20px;
   }
@@ -662,6 +670,29 @@ button {
   .panel,
   .schedule-toolbar {
     padding: 12px;
+  }
+
+  #app {
+    padding: 0;
+  }
+
+  .app-shell {
+    min-height: 100dvh;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .app-header {
+    border-bottom: 1px solid var(--app-border);
+  }
+
+  .panel__header {
+    margin-bottom: 12px;
+  }
+
+  .status-pill {
+    justify-self: start;
   }
 
   .app-controls,
@@ -684,15 +715,113 @@ button {
     grid-template-columns: 1fr;
   }
 
-  .panel__header {
-    display: grid;
+  .schedule-toolbar,
+  .widget-panel {
+    border-radius: 0;
+    border-inline: 0;
   }
 
-  .schedule-table__header,
+  .schedule-stats span {
+    min-height: 28px;
+    padding-inline: 8px;
+  }
+
+  .schedule-workspace {
+    gap: 10px;
+  }
+
+  .widget-panel__header {
+    min-height: 40px;
+    padding-inline: 12px;
+  }
+
+  .schedule-table__header {
+    display: none;
+  }
+
+  .schedule-table__body {
+    min-height: 0;
+    overflow-x: hidden;
+  }
+
   .schedule-row {
-    min-width: 760px;
-    grid-template-columns: 62px 70px 82px minmax(120px, 1fr) minmax(120px, 0.9fr) 80px minmax(150px, 1fr);
-    gap: 8px;
+    min-width: 0;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas:
+      "time subject"
+      "meta meta"
+      "groups groups";
+    gap: 6px 10px;
+    border-left-width: 3px;
+    padding: 12px;
+  }
+
+  .schedule-row__time {
+    grid-area: time;
+    align-self: start;
+    border: 1px solid var(--app-border);
+    border-radius: 999px;
+    background: var(--app-surface);
+    color: var(--app-primary-strong);
+    padding: 4px 8px;
+    font-size: 12px;
+    font-weight: 900;
+    white-space: nowrap;
+  }
+
+  .schedule-row__subject {
+    grid-area: subject;
+    font-size: 14px;
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .schedule-row__zjazd,
+  .schedule-row__day,
+  .schedule-row__type {
+    display: none;
+  }
+
+  .schedule-row__mobile-meta {
+    display: block;
+    grid-area: meta;
+    color: var(--app-text-muted);
+    font-size: 11px;
+    font-weight: 800;
+  }
+
+  .schedule-row__groups {
+    grid-area: groups;
+    color: var(--app-text-muted);
+    font-size: 12px;
+  }
+
+  .schedule-row__groups strong {
+    font-weight: 800;
+  }
+
+  .schedule-row__groups small {
+    display: inline;
+    margin: 0 0 0 6px;
+    font-size: 11px;
+  }
+
+  .schedule-row__groups small::before {
+    content: "· ";
+  }
+
+  .schedule-row__teacher {
+    display: none;
+  }
+
+  .schedule-details {
+    padding: 12px;
+  }
+
+  .details-card,
+  .details-hint,
+  .empty-state {
+    border-radius: 10px;
   }
 
   .toast-region {

@@ -89,13 +89,14 @@
       const selected = selectedItem && item.id === selectedItem.id ? " is-selected" : "";
       return `
         <button class="schedule-row${selected}" data-schedule-select="${escapeAttribute(item.id)}" type="button" role="row">
-          <span>${t("zjazd")} ${escapeHtml(String(item.zjazdNumber))}</span>
-          <span>${escapeHtml(item.dayLabel)}</span>
-          <span>${escapeHtml(item.timeFrom)}-${escapeHtml(item.timeTo)}</span>
-          <span><strong>${escapeHtml(item.groupSummary)}</strong><small>${escapeHtml(item.subjectCode)}</small></span>
-          <span>${escapeHtml(item.teacherLabel)}</span>
-          <span>${escapeHtml(item.typeLabel)}</span>
-          <span>${escapeHtml(item.subjectRaw)}</span>
+          <span class="schedule-row__zjazd">${t("zjazd")} ${escapeHtml(String(item.zjazdNumber))}</span>
+          <span class="schedule-row__day">${escapeHtml(item.dayLabel)}</span>
+          <span class="schedule-row__time">${escapeHtml(item.timeFrom)}-${escapeHtml(item.timeTo)}</span>
+          <span class="schedule-row__groups"><strong>${escapeHtml(item.groupSummary)}</strong><small>${escapeHtml(item.subjectCode)}</small></span>
+          <span class="schedule-row__teacher">${escapeHtml(item.teacherLabel)}</span>
+          <span class="schedule-row__type">${escapeHtml(item.typeLabel)}</span>
+          <span class="schedule-row__subject">${escapeHtml(item.subjectRaw)}</span>
+          <span class="schedule-row__mobile-meta">${t("zjazd")} ${escapeHtml(String(item.zjazdNumber))} · ${escapeHtml(item.dayLabel)} · ${escapeHtml(item.typeLabel)}</span>
         </button>`;
     }
 
