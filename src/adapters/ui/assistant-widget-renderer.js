@@ -34,12 +34,12 @@
                 <label class="filter-field assistant-question-field">
                   <span>${t("readyQuestions")}</span>
                   <select class="assistant-question-select" data-assistant-question ${model.isLimitReached ? "disabled" : ""}>
-                    <option value="">${t("selectQuestion")}</option>
+                    <option value="" disabled${model.selectedQuestionId ? "" : " selected"}>${t("selectQuestion")}</option>
                     ${model.questions.map((question) => renderQuestionOption(question, model.selectedQuestionId)).join("")}
                   </select>
                 </label>
               </div>
-              <div class="assistant-message-list" aria-label="${t("assistantChat")}">
+              <div class="assistant-message-list" data-assistant-message-list aria-label="${t("assistantChat")}">
                 ${model.messages.length ? model.messages.map(renderMessage).join("") : `<p class="empty-state">${t("assistantEmpty")}</p>`}
               </div>
               <form class="assistant-composer" data-assistant-submit>
@@ -179,7 +179,7 @@
                   <strong>${escapeHtml(assistantService.localize(item.title, state.language))}</strong>
                   <span>${escapeHtml(assistantService.localize(item.text, state.language))}</span>
                 </div>
-                <button class="details-link" data-assistant-scene-link="${escapeAttribute(item.sceneId)}" type="button">${t("open")}</button>
+                <button class="details-link" data-assistant-demo-action type="button">${t("open")}</button>
               </article>`).join("")}
           </div>
         </article>`;
@@ -273,6 +273,8 @@
         button.addEventListener("click", showDemoNotice);
       });
 
+      queueChatScroll(rootElement);
+
       const clearButton = rootElement.querySelector("[data-assistant-clear]");
       if (clearButton) {
         clearButton.addEventListener("click", () => {
@@ -280,6 +282,15 @@
           requestRender();
         });
       }
+    }
+
+    function queueChatScroll(rootElement) {
+      const list = rootElement.querySelector("[data-assistant-message-list]");
+      if (!list || !(state.assistant.messages || []).length) return;
+
+      requestAnimationFrame(() => {
+        list.scrollTop = list.scrollHeight;
+      });
     }
 
     function countStudentMessages() {
