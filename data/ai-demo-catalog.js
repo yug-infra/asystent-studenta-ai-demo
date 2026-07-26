@@ -68,14 +68,14 @@
   ];
 
   const AWS_LABS = [
-    { id: "lab-1", title: { pl: "Laboratorium 1 - Wprowadzenie do AWS", en: "Lab 1 - Introduction to AWS" }, status: "done", score: "8/10" },
-    { id: "lab-2", title: { pl: "Laboratorium 2 - EC2 i maszyny wirtualne", en: "Lab 2 - EC2 and virtual machines" }, status: "done", score: "9/10" },
-    { id: "lab-3", title: { pl: "Laboratorium 3 - Sieci VPC", en: "Lab 3 - VPC networking" }, status: "done", score: "10/10" },
-    { id: "lab-4", title: { pl: "Laboratorium 4 - IAM i polityki dostępu", en: "Lab 4 - IAM and access policies" }, status: "todo" },
-    { id: "lab-5", title: { pl: "Laboratorium 5 - Amazon S3", en: "Lab 5 - Amazon S3" }, status: "todo" },
-    { id: "lab-6", title: { pl: "Laboratorium 6 - Bazy danych RDS", en: "Lab 6 - RDS databases" }, status: "todo" },
-    { id: "lab-7", title: { pl: "Laboratorium 7 - AWS Lambda", en: "Lab 7 - AWS Lambda" }, status: "todo" },
-    { id: "lab-8", title: { pl: "Laboratorium 8 - Monitoring i CloudWatch", en: "Lab 8 - Monitoring and CloudWatch" }, status: "todo" }
+    { id: "lab-1", title: { pl: "Laboratorium 1 - Wprowadzenie do AWS", en: "Lab 1 - Introduction to AWS" }, status: "done", actions: ["tests"], score: "8/10" },
+    { id: "lab-2", title: { pl: "Laboratorium 2 - EC2 i maszyny wirtualne", en: "Lab 2 - EC2 and virtual machines" }, status: "done", actions: ["tests"], score: "9/10" },
+    { id: "lab-3", title: { pl: "Laboratorium 3 - Sieci VPC", en: "Lab 3 - VPC networking" }, status: "done", actions: ["tests"], score: "10/10" },
+    { id: "lab-4", title: { pl: "Laboratorium 4 - IAM i polityki dostępu", en: "Lab 4 - IAM and access policies" }, status: "todo", actions: ["theory", "task"] },
+    { id: "lab-5", title: { pl: "Laboratorium 5 - Amazon S3", en: "Lab 5 - Amazon S3" }, status: "todo", actions: ["theory", "task"] },
+    { id: "lab-6", title: { pl: "Laboratorium 6 - Bazy danych RDS", en: "Lab 6 - RDS databases" }, status: "todo", actions: ["task"] },
+    { id: "lab-7", title: { pl: "Laboratorium 7 - AWS Lambda", en: "Lab 7 - AWS Lambda" }, status: "todo", actions: ["theory", "task"] },
+    { id: "lab-8", title: { pl: "Laboratorium 8 - Monitoring i CloudWatch", en: "Lab 8 - Monitoring and CloudWatch" }, status: "todo", actions: ["theory"] }
   ];
 
   const SCENES = {
@@ -91,17 +91,36 @@
       actionLabel: { pl: "Pokaż przejście Teams", en: "Show Teams transition" }
     },
     "aws-progress": {
-      kicker: "Demo / AWS",
+      kicker: "Demo / dane uczelniane",
       title: { pl: "AWS - laboratoria do wykonania", en: "AWS labs to complete" },
-      copy: { pl: "Postęp jest pokazany jako fixture: 3 wykonane laboratoria i 5 kolejnych do zamknięcia.", en: "Progress is shown as a fixture: 3 completed labs and 5 more to close." }
+      copy: { pl: "Wykonano 3 z 8 laboratoriów - Pozostało 5", en: "Completed 3 of 8 labs - 5 remaining" }
     },
     "aws-resources": {
       kicker: "Demo / centrum zasobów",
       title: { pl: "Wszystkie zasoby AWS", en: "All AWS resources" },
-      copy: { pl: "Wykłady, laboratoria i materiały dodatkowe w jednym miejscu.", en: "Lectures, labs and extra materials in one place." },
+      copy: { pl: "W jednym miejscu możesz przejść do nagrań, laboratoriów oraz materiałów dodatkowych.", en: "Open recordings, labs and extra materials from one place." },
       resourceColumns: [
-        { title: { pl: "Wykłady", en: "Lectures" }, items: ["AWS Cloud overview", "EC2 + VPC", "S3 + RDS + Lambda"] },
-        { title: { pl: "Platformy", en: "Platforms" }, items: ["Microsoft Teams", "Moodle", "AWS OnDemand"] }
+        {
+          title: { pl: "Wykłady i nagrania", en: "Lectures and recordings" },
+          items: [
+            { label: { pl: "Wykład 1 - Wprowadzenie do chmury AWS", en: "Lecture 1 - Introduction to AWS cloud" }, resource: "lecture" },
+            { label: { pl: "Wykład 2 - EC2 i sieci VPC", en: "Lecture 2 - EC2 and VPC networking" }, resource: "lecture" },
+            { label: { pl: "Wykład 3 - S3, RDS i Lambda", en: "Lecture 3 - S3, RDS and Lambda" }, resource: "lecture" },
+            { label: { pl: "Wykład 4 - Bezpieczeństwo i monitoring", en: "Lecture 4 - Security and monitoring" }, resource: "lecture" }
+          ]
+        },
+        {
+          title: { pl: "Laboratoria", en: "Laboratories" },
+          items: AWS_LABS.map((lab) => ({ label: lab.title, resource: "lab" }))
+        },
+        {
+          title: { pl: "Literatura i platformy", en: "Literature and platforms" },
+          items: [
+            { label: { pl: "Dokumentacja i materiały prowadzącego", en: "Documentation and lecturer materials" }, resource: "teams", actionLabel: { pl: "Otwórz Teams", en: "Open Teams" } },
+            { label: { pl: "Materiały, zadania i ogłoszenia", en: "Materials, assignments and announcements" }, resource: "moodle", actionLabel: { pl: "Otwórz Moodle", en: "Open Moodle" } },
+            { label: { pl: "Materiały praktyczne i testy AWS", en: "AWS practical materials and tests" }, resource: "ondemand", actionLabel: { pl: "Otwórz OnDemand", en: "Open OnDemand" } }
+          ]
+        }
       ]
     },
     "learning-priority": {
@@ -116,15 +135,25 @@
     },
     "teacher-meeting": {
       kicker: "Demo / prowadzący",
-      title: { pl: "Spotkanie w Teams Calendar", en: "Teams Calendar meeting" },
-      copy: { pl: "Formularz demonstracyjny pokazuje, jak prowadzący może dobrać grupy i przygotować spotkanie.", en: "The demo form shows how a teacher can select groups and prepare a meeting." },
-      formRows: [
-        { label: { pl: "Przedmiot", en: "Subject" }, value: "Eksploracja danych" },
-        { label: { pl: "Prowadzący", en: "Teacher" }, value: "dr hab. inż. Z. Gniazdowski" },
-        { label: { pl: "Grupy", en: "Groups" }, value: "MZ201, MZ202, MZ203" },
-        { label: { pl: "Termin", en: "Time" }, value: "2026-06-15 · 18:00 · 90 min" }
-      ],
-      actionLabel: { pl: "Dodaj spotkanie do Teams", en: "Add meeting to Teams" }
+      title: { pl: "Dodaj spotkanie do kalendarza Teams", en: "Add a meeting to Teams calendar" },
+      copy: { pl: "To jest wersja demonstracyjna. W systemie docelowym prowadzący zobaczy tylko przedmioty, profile, grupy i innych prowadzących dostępnych zgodnie z uprawnieniami konta.", en: "This is a demo version. In the target system, the teacher will only see subjects, profiles, groups and other teachers available according to account permissions." },
+      meetingForm: {
+        fields: [
+          { label: { pl: "Przedmiot", en: "Subject" }, value: "Eksploracja danych" },
+          { label: { pl: "Prowadzący / inicjator spotkania", en: "Teacher / meeting initiator" }, value: "dr hab. inż. Z. Gniazdowski" },
+          { label: { pl: "Tryb i semestr", en: "Mode and semester" }, value: { pl: "Studia niestacjonarne - 2 semestr", en: "Part-time studies - semester 2" } }
+        ],
+        profiles: ["UMiSI", "BSiST", "BD&AB", "IO FullDev", "TIZCO", "ID DatabaseDev", "ZP"],
+        groups: ["MZ201 (UMiSI)", "MZ201 L (UMiSI)", "MZ202 (BSiST)", "MZ202 L (BSiST)", "MZ203 (BD&AB)", "MZ203 L (BD&AB)", "MZ204 (IO FullDev)", "MZ204 L (IO FullDev)", "MZ205 (TIZCO)", "MZ205 L (TIZCO)", "MZ206 (ID DatabaseDev)", "MZ206 L (ID DatabaseDev)", "MZ207 (ZP)", "MZ207 L (ZP)"],
+        schedule: [
+          { label: { pl: "Data", en: "Date" }, value: "15.06.2026" },
+          { label: { pl: "Godzina", en: "Time" }, value: "18:00" },
+          { label: { pl: "Czas trwania", en: "Duration" }, value: "90 min" }
+        ],
+        topic: { label: { pl: "Temat spotkania", en: "Meeting topic" }, value: { pl: "Eksploracja danych - wykład", en: "Data mining - lecture" } }
+      },
+      actionLabel: { pl: "Dodaj spotkanie do Teams", en: "Add meeting to Teams" },
+      actionResource: "teacher-meeting"
     },
     feedback: {
       kicker: "Prototype / demo",
