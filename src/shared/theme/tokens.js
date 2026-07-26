@@ -41,6 +41,10 @@
       "--app-primary-soft": "#e8ebff",
       "--app-success": "#35a764",
       "--app-success-soft": "#e6f7ed",
+      "--app-success-button-bg": "#def7e9",
+      "--app-success-button-border": "#9fdfb8",
+      "--app-success-button-text": "#157a45",
+      "--app-success-button-hover-bg": "#ccefdc",
       "--app-warning": "#d08a18",
       "--app-danger": "#c93c4c"
     }),
@@ -58,6 +62,10 @@
       "--app-primary-soft": "#252b5c",
       "--app-success": "#65d58d",
       "--app-success-soft": "#203f31",
+      "--app-success-button-bg": "#173b2a",
+      "--app-success-button-border": "#397a55",
+      "--app-success-button-text": "#8bf0ad",
+      "--app-success-button-hover-bg": "#1f4a35",
       "--app-warning": "#f0ba56",
       "--app-danger": "#ff7a88"
     })

@@ -12,6 +12,10 @@
   --app-primary-soft: #e8ebff;
   --app-success: #35a764;
   --app-success-soft: #e6f7ed;
+  --app-success-button-bg: #def7e9;
+  --app-success-button-border: #9fdfb8;
+  --app-success-button-text: #157a45;
+  --app-success-button-hover-bg: #ccefdc;
   --app-warning: #d08a18;
   --app-danger: #c93c4c;
   color-scheme: light;
@@ -427,12 +431,16 @@ button {
 
 .teams-button {
   min-height: 38px;
-  border: 0;
+  border: 1px solid var(--app-success-button-border);
   border-radius: 10px;
-  background: var(--app-success);
-  color: #ffffff;
+  background: var(--app-success-button-bg);
+  color: var(--app-success-button-text);
   font-size: 13px;
   font-weight: 900;
+}
+
+.teams-button:hover:not(:disabled) {
+  background: var(--app-success-button-hover-bg);
 }
 
 .empty-state {

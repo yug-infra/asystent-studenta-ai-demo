@@ -78,6 +78,124 @@
     { id: "lab-8", title: { pl: "Laboratorium 8 - Monitoring i CloudWatch", en: "Lab 8 - Monitoring and CloudWatch" }, status: "todo", actions: ["theory"] }
   ];
 
+
+  const MEETING_DICTIONARY = buildMeetingDictionary(global.AsystentStudentScheduleData || []);
+  const MEETING_DEFAULT_STATE = createDefaultMeetingState(MEETING_DICTIONARY);
+
+  function buildMeetingDictionary(rows) {
+    const subjects = new Map();
+    const teachers = new Map();
+
+    (Array.isArray(rows) ? rows : []).forEach((row) => {
+      const subjectId = String(row.subjectId || row.subjectCode || "").trim();
+      const subjectLabel = String(row.subjectRaw || "").trim();
+      if (!subjectId || !subjectLabel) return;
+
+      const teacherLabel = normalizeTeacherLabel(row.teacherRaw);
+      const teacherId = teacherLabel ? normalizeTeacherId(row.teacherId, teacherLabel) : "";
+      if (teacherId) {
+        teachers.set(teacherId, { id: teacherId, label: teacherLabel });
+      }
+
+      if (!subjects.has(subjectId)) {
+        subjects.set(subjectId, {
+          id: subjectId,
+          code: row.subjectCode || "",
+          label: subjectLabel,
+          teacherIds: [],
+          profiles: new Map()
+        });
+      }
+
+      const subject = subjects.get(subjectId);
+      if (teacherId && !subject.teacherIds.includes(teacherId)) {
+        subject.teacherIds.push(teacherId);
+      }
+
+      const profileLabel = getProfileLabel(row.groupLabel);
+      const profileId = slugify(profileLabel);
+      if (!subject.profiles.has(profileId)) {
+        subject.profiles.set(profileId, { id: profileId, label: profileLabel, groups: [] });
+      }
+
+      const groupLabel = normalizeGroupLabel(row.groupLabel);
+      const profile = subject.profiles.get(profileId);
+      if (groupLabel && !profile.groups.includes(groupLabel)) {
+        profile.groups.push(groupLabel);
+      }
+    });
+
+    const normalizedSubjects = Array.from(subjects.values())
+      .map((subject) => ({
+        ...subject,
+        teacherIds: subject.teacherIds.sort(compareText),
+        profiles: Array.from(subject.profiles.values())
+          .map((profile) => ({ ...profile, groups: profile.groups.sort(compareText) }))
+          .sort((a, b) => compareText(a.label, b.label))
+      }))
+      .sort((a, b) => compareText(a.label, b.label));
+
+    const normalizedTeachers = Array.from(teachers.values()).sort((a, b) => compareText(a.label, b.label));
+
+    return {
+      defaultSubjectId: normalizedSubjects.find((subject) => subject.id === "subj_eksploracja_danych")?.id || normalizedSubjects[0]?.id || "",
+      defaultTeacherId: normalizedTeachers.find((teacher) => teacher.label.includes("Z. Gniazdowski"))?.id || normalizedTeachers[0]?.id || "",
+      subjects: normalizedSubjects,
+      teachers: normalizedTeachers
+    };
+  }
+
+  function createDefaultMeetingState(dictionary) {
+    const subject = dictionary.subjects.find((item) => item.id === dictionary.defaultSubjectId) ||
+      dictionary.subjects[0] ||
+      { id: "", label: "", profiles: [], teacherIds: [] };
+    const profileIds = (subject.profiles || []).map((profile) => profile.id);
+    const groupIds = (subject.profiles || []).flatMap((profile) => profile.groups || []);
+    const teacherId = (subject.teacherIds || []).includes(dictionary.defaultTeacherId)
+      ? dictionary.defaultTeacherId
+      : (subject.teacherIds || [])[0] || dictionary.defaultTeacherId || (dictionary.teachers[0] || {}).id || "";
+    const title = localizeMeetingValue(subject.label, "pl");
+    return { date: "2026-06-15", duration: "90", groupIds, profileIds, subjectId: subject.id, teacherId, time: "18:00", topic: title ? title + " - wykład" : "" };
+  }
+
+  function localizeMeetingValue(value, lang) {
+    if (!value) return "";
+    if (typeof value === "string") return value;
+    return value[lang] || value.pl || value.en || "";
+  }
+
+  function normalizeTeacherLabel(value) {
+    const label = String(value || "").trim().replace("prof..", "prof.");
+    return /(?:dr|mgr|inż|prof)/i.test(label) && label.length > 5 ? label : "";
+  }
+
+  function normalizeTeacherId(rawId, label) {
+    return String(rawId || slugify(label)).replace(/^t_/, "teacher_");
+  }
+
+  function getProfileLabel(groupLabel) {
+    const match = String(groupLabel || "").match(/\(([^)]+)\)/);
+    return match ? match[1] : "Pozostałe";
+  }
+
+  function normalizeGroupLabel(value) {
+    return String(value || "").trim().replace("L(", "L (");
+  }
+
+  function slugify(value) {
+    return String(value || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .replace(/&/g, "and")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "");
+  }
+
+  function compareText(a, b) {
+    return String(a || "").localeCompare(String(b || ""), "pl");
+  }
+
   const SCENES = {
     "next-class": {
       kicker: "Teams / Plan zajęć",
@@ -137,21 +255,7 @@
       kicker: "Demo / prowadzący",
       title: { pl: "Dodaj spotkanie do kalendarza Teams", en: "Add a meeting to Teams calendar" },
       copy: { pl: "To jest wersja demonstracyjna. W systemie docelowym prowadzący zobaczy tylko przedmioty, profile, grupy i innych prowadzących dostępnych zgodnie z uprawnieniami konta.", en: "This is a demo version. In the target system, the teacher will only see subjects, profiles, groups and other teachers available according to account permissions." },
-      meetingForm: {
-        fields: [
-          { label: { pl: "Przedmiot", en: "Subject" }, value: "Eksploracja danych" },
-          { label: { pl: "Prowadzący / inicjator spotkania", en: "Teacher / meeting initiator" }, value: "dr hab. inż. Z. Gniazdowski" },
-          { label: { pl: "Tryb i semestr", en: "Mode and semester" }, value: { pl: "Studia niestacjonarne - 2 semestr", en: "Part-time studies - semester 2" } }
-        ],
-        profiles: ["UMiSI", "BSiST", "BD&AB", "IO FullDev", "TIZCO", "ID DatabaseDev", "ZP"],
-        groups: ["MZ201 (UMiSI)", "MZ201 L (UMiSI)", "MZ202 (BSiST)", "MZ202 L (BSiST)", "MZ203 (BD&AB)", "MZ203 L (BD&AB)", "MZ204 (IO FullDev)", "MZ204 L (IO FullDev)", "MZ205 (TIZCO)", "MZ205 L (TIZCO)", "MZ206 (ID DatabaseDev)", "MZ206 L (ID DatabaseDev)", "MZ207 (ZP)", "MZ207 L (ZP)"],
-        schedule: [
-          { label: { pl: "Data", en: "Date" }, value: "15.06.2026" },
-          { label: { pl: "Godzina", en: "Time" }, value: "18:00" },
-          { label: { pl: "Czas trwania", en: "Duration" }, value: "90 min" }
-        ],
-        topic: { label: { pl: "Temat spotkania", en: "Meeting topic" }, value: { pl: "Eksploracja danych - wykład", en: "Data mining - lecture" } }
-      },
+      meeting: true,
       actionLabel: { pl: "Dodaj spotkanie do Teams", en: "Add meeting to Teams" },
       actionResource: "teacher-meeting"
     },
@@ -167,6 +271,8 @@
     aiDemoCatalog: {
       AWS_LABS,
       MAX_DEMO_QUESTIONS,
+      MEETING_DEFAULT_STATE,
+      MEETING_DICTIONARY,
       QUESTIONS,
       SCENES
     }
