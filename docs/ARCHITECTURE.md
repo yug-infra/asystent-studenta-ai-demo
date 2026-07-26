@@ -86,9 +86,9 @@ The AI feature is a public demo fixture flow, not a production AI integration:
 
 The assistant tab follows the prototype behavior:
 
-- the student selects a prepared question or types a custom one;
-- each submitted question and answer is appended to chat history;
-- submitting a new question clears the currently active visual scene;
+- selecting a prepared question immediately appends the question and fixture answer to chat history;
+- the composer is reserved for custom questions and returns an explicit real-AI-not-connected demo response;
+- submitting any new question clears the currently active visual scene;
 - clicking an assistant answer opens the related visual scene on the right;
 - `New chat` clears the history and hides the active scene;
 - the public demo is limited to five submitted questions;
