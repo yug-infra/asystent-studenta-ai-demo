@@ -48,6 +48,7 @@ The GitHub Pages entry point is intentionally thin:
 | `src/adapters/ui/shell-renderer.js` | Desktop-first shell rendering, tabs and UI events |
 | `src/adapters/ui/styles.css` | CSS variables, layout rules and responsive shell behavior |
 | `src/adapters/ui/toast-notification-renderer.js` | Small notification adapter for demo actions and future integration feedback |
+| `src/adapters/teams/teams-transition-adapter.js` | Frontend-only Teams transition boundary used by schedule actions |
 
 The shell behaves like separate workbook-style screens: the schedule tab and the AI assistant tab are not rendered as two always-visible columns. The active tab controls which screen is visible, while later detail panels can still be opened inside the selected feature.
 
@@ -63,7 +64,7 @@ The schedule feature is split across data, domain, application and UI adapter fi
 | `src/domain/schedule/teachers.js` | Manual teacher registry and aliases |
 | `src/domain/schedule/schedule-domain.js` | Normalization, aggregation, labels and filtering rules |
 | `src/application/schedule/schedule-service.js` | Filter defaults, filter options, stats and view models |
-| `src/adapters/ui/schedule-widget-renderer.js` | Browser rendering and UI event handling for filters/cards |
+| `src/adapters/ui/schedule-widget-renderer.js` | Browser rendering and UI event handling for filters, table rows and details |
 
 The renderer does not read raw data directly. It asks the application service for a view model and then renders it.
 
@@ -71,11 +72,17 @@ The schedule screen follows the original prototype composition: one feature scre
 
 The public schedule slice is documented as February-June 2026. It was parsed semi-automatically and should be treated as demo data that may need manual verification.
 
+## Teams Transition Flow
+
+The schedule UI does not call the toast adapter directly. When the user selects `Open Teams`, the schedule widget passes the selected schedule item to `src/adapters/teams/teams-transition-adapter.js`.
+
+In the public demo, the Teams adapter is intentionally frontend-only. It does not open Microsoft Graph or a production Teams deep link. Instead, it uses the toast notification adapter to show a small demo transition message in the bottom-right corner and keeps it visible while the user hovers over it.
+
+Later, the same Teams adapter boundary can be replaced with Microsoft Graph, a Teams deep link, or a browser extension bridge while leaving the schedule UI unchanged.
+
 ## UI Feedback Flow
 
-Demo-only actions should still look like real user feedback. The current Teams button does not open Microsoft Graph or a production Teams deep link. Instead, it calls the toast notification adapter, which shows a small message in the bottom-right corner and keeps it visible while the user hovers over it.
-
-This preserves a clear adapter boundary: later a real Teams adapter can perform navigation and reuse the same notification adapter for success, warning or error states.
+Demo-only actions should still look like real user feedback. The toast notification adapter is a reusable UI feedback mechanism for safe demo transitions, warnings and future integration states.
 
 ## Shared Localization
 
@@ -143,7 +150,7 @@ Some parts are intentionally demo/stub implementations:
 
 | Boundary | Current form | Future replacement |
 |---|---|---|
-| Teams transition | Frontend demo adapter and toast feedback | Microsoft Graph / Teams API adapter |
+| Teams transition | Frontend Teams adapter with toast feedback | Microsoft Graph / Teams API adapter |
 | AI responses | Fixture/catalog data | Real AI assistant API adapter |
 | Learning resources | Planned only | Moodle / on-demand resources adapter |
 | Storage/cache | Planned only | Browser extension storage/cache adapter |
