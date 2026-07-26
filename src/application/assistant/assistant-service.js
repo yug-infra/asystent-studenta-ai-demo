@@ -43,12 +43,14 @@
 
     function setInput(state, value) {
       state.input = String(value || "");
+      if (state.input.trim()) {
+        state.selectedQuestionId = "";
+      }
     }
 
     function setSelectedQuestion(state, questionId) {
       state.selectedQuestionId = String(questionId || "");
-      const question = findQuestion(state.selectedQuestionId);
-      state.input = question ? localize(question.label, "pl") : state.input;
+      state.input = "";
     }
 
     function submit(state) {
