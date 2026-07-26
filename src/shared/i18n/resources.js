@@ -7,8 +7,8 @@
 
   const RESOURCES = {
     pl: {
-      appTitle: "Asystent studenta AI",
-      appSubtitle: "Demo prototypu: działający moduł planu zajęć oraz symulacja przejścia do zespołu w Microsoft Teams.",
+      appTitle: "Nawigacja zajęć Teams",
+      appSubtitle: "Upewnij się, że jesteś na karcie Zespoły. Filtry są lokalne, a przycisk Teams klika właściwą grupę.",
       prototypeBadge: "Prototyp publiczny",
       settings: "Ustawienia",
       section: "Sekcja",
@@ -97,8 +97,8 @@
       assistantTeacherToastMessage: "W rzeczywistej wersji spotkanie zostanie dodane do kalendarza Microsoft Teams i przypisane do wybranych grup."
     },
     en: {
-      appTitle: "AI Student Assistant",
-      appSubtitle: "Prototype demo: working schedule module and simulated transition to a Microsoft Teams group.",
+      appTitle: "Teams class navigation",
+      appSubtitle: "Make sure you are on the Teams tab. Filters are local, and the Teams button opens the matching group.",
       prototypeBadge: "Public prototype",
       settings: "Settings",
       section: "Section",
