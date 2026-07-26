@@ -205,7 +205,11 @@
                   <strong>${escapeHtml(assistantService.localize(item.title, state.language))}</strong>
                   <span>${escapeHtml(assistantService.localize(item.text, state.language))}</span>
                 </div>
-                ${assistantService.catalog.SCENES[item.sceneId] ? `<button class="details-link" data-assistant-scene-link="${escapeAttribute(item.sceneId)}" type="button">${t("open")}</button>` : `<button class="details-link" data-assistant-demo-action="default" type="button">${t("open")}</button>`}
+                ${item.toastAction
+                  ? `<button class="details-link" data-assistant-demo-action="${escapeAttribute(item.toastAction)}" type="button">${t("open")}</button>`
+                  : assistantService.catalog.SCENES[item.sceneId]
+                    ? `<button class="details-link" data-assistant-scene-link="${escapeAttribute(item.sceneId)}" type="button">${t("open")}</button>`
+                    : `<button class="details-link" data-assistant-demo-action="default" type="button">${t("open")}</button>`}
               </article>`).join("")}
           </div>
         </article>`;
@@ -385,6 +389,8 @@
       const messageKey = {
         default: "assistantDemoToastMessage",
         lab: "assistantAwsLabToast",
+        "mentor-databases": "assistantMentorDatabasesToast",
+        "mentor-seminar": "assistantMentorSeminarToast",
         lecture: "assistantAwsLectureToast",
         moodle: "assistantAwsMoodleToast",
         ondemand: "assistantAwsOnDemandToast",

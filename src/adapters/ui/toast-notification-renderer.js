@@ -62,7 +62,7 @@
     function scheduleHide(toastElement) {
       clearTimers(toastElement);
       const timers = activeTimers.get(toastElement) || { hide: 0, remove: 0 };
-      timers.hide = window.setTimeout(() => beginDismiss(toastElement), 2000);
+      timers.hide = window.setTimeout(() => beginDismiss(toastElement), 5200);
       activeTimers.set(toastElement, timers);
     }
 
