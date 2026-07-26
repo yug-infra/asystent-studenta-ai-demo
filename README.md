@@ -13,6 +13,7 @@ The current prototype focuses on the schedule and assistant workflow:
 - showing and filtering student schedule data;
 - preparing a UI layer that can sit on top of the Teams browser experience;
 - simulating AI assistant interactions through prepared questions, cumulative chat and visual response scenes;
+- remembering the last selected top-level screen and active assistant visual scene through local browser storage;
 - demonstrating how the UI can later connect to real platform APIs through adapters.
 
 The schedule part is implemented as working frontend logic. The AI assistant tab is a prototype/demo layer: it supports prepared questions, custom-question fallback, a five-question public demo limit, chat history and visual response panels. It is not connected to a production AI or Microsoft API backend in this public demo.
