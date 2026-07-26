@@ -20,7 +20,7 @@
       const activeScene = getScene(safeState.activeSceneId);
 
       return {
-        activeScene,
+        activeScene: activeScene ? { ...activeScene, id: safeState.activeSceneId } : null,
         input: safeState.input || "",
         isLimitReached: questionsUsed >= maxQuestions,
         maxQuestions,
