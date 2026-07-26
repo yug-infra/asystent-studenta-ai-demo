@@ -18,15 +18,13 @@
 
   const state = {
     activeTab: normalizeActiveTab(storedUiState.activeTab),
-    assistant: assistantService.createDefaultState(),
+    assistant: assistantService.hydrateState
+      ? assistantService.hydrateState(storedUiState.assistant)
+      : assistantService.createDefaultState(),
     language: app.i18n.DEFAULT_LANGUAGE,
     theme: app.theme.createThemeState(app.theme.DEFAULT_THEME),
     scheduleFilters: scheduleService.createDefaultFilters()
   };
-
-  if (app.aiDemoCatalog.SCENES[storedUiState.activeAssistantSceneId]) {
-    state.assistant.activeSceneId = storedUiState.activeAssistantSceneId;
-  }
 
   const toastNotifications = app.uiAdapters.createToastNotificationRenderer(rootElement);
   const teamsTransition = app.teamsAdapters.createTeamsTransitionAdapter({
@@ -87,6 +85,9 @@
   function persistUiState() {
     writeStoredUiState({
       activeAssistantSceneId: state.assistant.activeSceneId || "",
+      assistant: assistantService.serializeState
+        ? assistantService.serializeState(state.assistant)
+        : state.assistant,
       activeTab: state.activeTab
     });
   }

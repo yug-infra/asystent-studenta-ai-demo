@@ -401,6 +401,8 @@
 @media (max-width: 1280px) {
   .assistant-workspace {
     grid-template-columns: 1fr;
+    grid-template-rows: minmax(360px, 46dvh) minmax(420px, auto);
+    overflow: auto;
   }
 
   .assistant-message-list {
@@ -409,6 +411,10 @@
 }
 
 @media (max-width: 920px) {
+  .assistant-widget {
+    height: auto;
+  }
+
   .assistant-toolbar {
     display: grid;
   }
@@ -427,9 +433,41 @@
   .assistant-meeting-fields {
     grid-template-columns: 1fr;
   }
+
+  .assistant-workspace {
+    height: auto;
+    min-height: auto;
+    overflow: visible;
+  }
+
+  .assistant-chat-panel {
+    min-height: 430px;
+  }
+
+  .assistant-scene-panel {
+    min-height: 420px;
+  }
 }
 
 @media (max-width: 640px) {
+  .assistant-workspace {
+    gap: 10px;
+    grid-template-rows: minmax(430px, auto) minmax(420px, auto);
+  }
+
+  .assistant-ready-questions,
+  .assistant-message-list,
+  .assistant-composer,
+  .assistant-scene {
+    padding-inline: 10px;
+  }
+
+  .assistant-message__bubble {
+    max-width: 100%;
+    border-radius: 13px;
+    font-size: 13px;
+  }
+
   .assistant-composer {
     grid-template-columns: 1fr;
   }
@@ -444,4 +482,17 @@
   .assistant-lab__actions { justify-items: start; }
   .assistant-lab__action-row { justify-content: flex-start; }
   .assistant-lab__meta { text-align: left; }
+
+  .assistant-chip {
+    min-height: 36px;
+  }
+
+  .assistant-meeting-group div {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .assistant-meeting-submit {
+    width: 100%;
+  }
 }
