@@ -87,7 +87,7 @@
         text: answer
       });
 
-      state.activeSceneId = sceneId;
+      state.activeSceneId = "";
       state.input = "";
       state.selectedQuestionId = "";
 
