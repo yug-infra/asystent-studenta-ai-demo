@@ -15,7 +15,7 @@ This backlog mirrors the main GitHub Issues used to build the public demo step b
 | #8 | App Shell | Build desktop-first layout shell | Done |
 | #9 | Schedule MVP | Implement schedule widgets and application flow | Done |
 | #10 | Integration Boundary | Add Teams transition adapter | Done |
-| #11 | AI Prototype | Add AI prototype catalog and chat flow | Planned |
+| #11 | AI Prototype | Add AI prototype catalog and chat flow | Done |
 | #12 | Release | Prepare public demo release and GitHub Pages | Planned |
 
 ## Product Backlog
@@ -40,6 +40,7 @@ This backlog mirrors the main GitHub Issues used to build the public demo step b
 - Open visual response panels from AI answers.
 - Make the demo status explicit: simulated assistant, not production AI.
 - Keep the AI assistant as a separate tab/screen, not a permanent side column next to the schedule.
+- Limit public demo conversation to five submitted questions.
 
 ### Future Integrations
 
