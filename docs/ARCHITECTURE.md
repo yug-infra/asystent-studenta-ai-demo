@@ -61,7 +61,7 @@ The schedule feature is split across data, domain, application and UI adapter fi
 
 | File | Responsibility |
 |---|---|
-| `data/schedule-data.js` | Sanitized static public schedule slice |
+| `data/schedule-data.js` | Full sanitized public schedule dataset without source-grid coordinates or cell identifiers |
 | `src/domain/schedule/teachers.js` | Manual teacher registry and aliases |
 | `src/domain/schedule/schedule-domain.js` | Normalization, aggregation, labels and filtering rules |
 | `src/application/schedule/schedule-service.js` | Filter defaults, filter options, stats and view models |
@@ -71,7 +71,7 @@ The renderer does not read raw data directly. It asks the application service fo
 
 The schedule screen follows the original prototype composition: one feature screen with a top control area, a dense filter row, a left schedule table/list widget and a right details/Teams widget. This keeps widget types consistent across the UI while still preserving the tab boundary between schedule and AI assistant screens.
 
-The public schedule slice is documented as February-June 2026. It was parsed semi-automatically and should be treated as demo data that may need manual verification.
+The public schedule dataset covers the full February-June 2026 prototype schedule. It was parsed semi-automatically and should be treated as demo data that may need manual verification.
 
 ## AI Assistant Flow
 
