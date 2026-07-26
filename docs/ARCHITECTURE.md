@@ -87,12 +87,16 @@ The AI feature is a public demo fixture flow, not a production AI integration:
 The assistant tab follows the prototype behavior:
 
 - selecting a prepared question immediately appends the question and fixture answer to chat history;
+- the prepared-question placeholder is a non-selectable prompt, not a real question;
+- after new messages are rendered, the chat scrolls to the latest answer;
+- the chat column stays narrower than the visual scene column on desktop;
 - the composer is reserved for custom questions and returns an explicit real-AI-not-connected demo response;
 - submitting any new question clears the currently active visual scene;
 - clicking an assistant answer opens the related visual scene on the right;
 - `New chat` clears the history and hides the active scene;
 - the public demo is limited to five submitted questions;
-- custom questions fall back to a demo feedback scene until a real AI adapter exists.
+- custom questions fall back to a demo feedback scene until a real AI adapter exists;
+- actions inside visual scenes use the toast notification adapter to explain that real API integration is required.
 
 ## Teams Transition Flow
 
