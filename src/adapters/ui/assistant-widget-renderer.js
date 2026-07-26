@@ -8,6 +8,7 @@
     const assistantService = dependencies.assistantService;
     const notifications = dependencies.notifications;
     const requestRender = dependencies.requestRender;
+    let shouldScrollChatToEnd = false;
 
     function render() {
       const model = assistantService.getViewModel(state.assistant, state.language);
@@ -171,7 +172,7 @@
                   return `
                     <article class="assistant-resource-item">
                       <span>${escapeHtml(itemLabel)}</span>
-                      <button class="details-link" data-assistant-demo-action="${escapeAttribute(resource)}" type="button">${escapeHtml(actionLabel)}</button>
+                      <button class="teams-button assistant-resource-action" data-assistant-demo-action="${escapeAttribute(resource)}" type="button">${escapeHtml(actionLabel)}</button>
                     </article>`;
                 }).join("")}
               </section>`).join("")}
@@ -261,7 +262,9 @@
 
           assistantService.setSelectedQuestion(state.assistant, selectedQuestionId);
           const result = assistantService.submit(state.assistant);
-          if (!result.ok && result.reason === "limit") {
+          if (result.ok) {
+            shouldScrollChatToEnd = true;
+          } else if (result.reason === "limit") {
             showDemoNotice();
           }
           requestRender();
@@ -274,7 +277,9 @@
         const syncComposer = () => {
           assistantService.setInput(state.assistant, input.value);
           if (submitButton) {
-            submitButton.disabled = countStudentMessages() >= assistantService.catalog.MAX_DEMO_QUESTIONS || !input.value.trim();
+            const maxQuestions = assistantService.catalog.MAX_DEMO_QUESTIONS;
+            const hasQuestionLimit = Number.isFinite(maxQuestions);
+            submitButton.disabled = (hasQuestionLimit && countStudentMessages() >= maxQuestions) || !input.value.trim();
           }
         };
 
@@ -294,7 +299,9 @@
           const currentInput = rootElement.querySelector("[data-assistant-input]");
           assistantService.setInput(state.assistant, currentInput ? currentInput.value : "");
           const result = assistantService.submit(state.assistant);
-          if (!result.ok && result.reason === "limit") {
+          if (result.ok) {
+            shouldScrollChatToEnd = true;
+          } else if (result.reason === "limit") {
             showDemoNotice();
           }
           requestRender();
@@ -332,8 +339,9 @@
 
     function queueChatScroll(rootElement) {
       const list = rootElement.querySelector("[data-assistant-message-list]");
-      if (!list || !(state.assistant.messages || []).length) return;
+      if (!shouldScrollChatToEnd || !list || !(state.assistant.messages || []).length) return;
 
+      shouldScrollChatToEnd = false;
       requestAnimationFrame(() => {
         list.scrollTop = list.scrollHeight;
       });
