@@ -19,12 +19,12 @@
             <section class="widget-panel assistant-chat-panel" aria-label="${t("assistantChat")}">
               <div class="widget-panel__header">
                 <strong>${t("assistantChat")}</strong>
-                <button class="details-link" data-assistant-clear type="button">${t("newChat")}</button>
+                <button class="teams-button assistant-clear-chat" data-assistant-clear type="button">${t("newChat")}</button>
               </div>
               <div class="assistant-ready-questions">
                 <label class="filter-field assistant-question-field">
                   <span>${t("readyQuestions")}</span>
-                  <select class="assistant-question-select" data-assistant-question ${model.isLimitReached ? "disabled" : ""}>
+                  <select class="assistant-question-select" data-assistant-question ${(model.isLimitReached || model.isThinking) ? "disabled" : ""}>
                     <option value="" disabled${model.selectedQuestionId ? "" : " selected"}>${t("selectQuestion")}</option>
                     ${model.questions.map((question) => renderQuestionOption(question, model.selectedQuestionId)).join("")}
                   </select>
@@ -34,8 +34,8 @@
                 ${model.messages.length ? model.messages.map(renderMessage).join("") : `<p class="empty-state">${t("assistantEmpty")}</p>`}
               </div>
               <form class="assistant-composer" data-assistant-submit>
-                <input data-assistant-input type="text" value="${escapeAttribute(model.input)}" placeholder="${t("messagePlaceholder")}" ${model.isLimitReached ? "disabled" : ""}>
-                <button class="teams-button" type="submit" ${model.isLimitReached || !model.input.trim() ? "disabled" : ""}>${t("send")}</button>
+                <input data-assistant-input type="text" value="${escapeAttribute(model.input)}" placeholder="${t("messagePlaceholder")}" ${(model.isLimitReached || model.isThinking) ? "disabled" : ""}>
+                <button class="teams-button" type="submit" ${model.isLimitReached || model.isThinking || !model.input.trim() ? "disabled" : ""}>${t("send")}</button>
               </form>
             </section>
             <section class="widget-panel assistant-scene-panel" aria-label="${t("visualAnswer")}">
@@ -57,6 +57,18 @@
     }
 
     function renderMessage(message) {
+      if (message.isThinking) {
+        return `
+        <article class="assistant-message assistant-message--assistant assistant-message--thinking">
+          <div class="assistant-message__bubble assistant-thinking">
+            <span class="assistant-thinking__dot" aria-hidden="true"></span>
+            <span class="assistant-thinking__dot" aria-hidden="true"></span>
+            <span class="assistant-thinking__dot" aria-hidden="true"></span>
+            <p>${t("thinking")}</p>
+          </div>
+        </article>`;
+      }
+
       const action = message.role === "assistant" && message.sceneId
         ? ` data-assistant-open-scene="${escapeAttribute(message.sceneId)}"`
         : "";
@@ -261,7 +273,7 @@
           }
 
           assistantService.setSelectedQuestion(state.assistant, selectedQuestionId);
-          const result = assistantService.submit(state.assistant);
+          const result = beginAssistantTurn();
           if (result.ok) {
             shouldScrollChatToEnd = true;
           } else if (result.reason === "limit") {
@@ -277,9 +289,7 @@
         const syncComposer = () => {
           assistantService.setInput(state.assistant, input.value);
           if (submitButton) {
-            const maxQuestions = assistantService.catalog.MAX_DEMO_QUESTIONS;
-            const hasQuestionLimit = Number.isFinite(maxQuestions);
-            submitButton.disabled = (hasQuestionLimit && countStudentMessages() >= maxQuestions) || !input.value.trim();
+            submitButton.disabled = Boolean(state.assistant.isThinking) || !input.value.trim();
           }
         };
 
@@ -298,7 +308,7 @@
           event.preventDefault();
           const currentInput = rootElement.querySelector("[data-assistant-input]");
           assistantService.setInput(state.assistant, currentInput ? currentInput.value : "");
-          const result = assistantService.submit(state.assistant);
+          const result = beginAssistantTurn();
           if (result.ok) {
             shouldScrollChatToEnd = true;
           } else if (result.reason === "limit") {
@@ -335,6 +345,26 @@
           requestRender();
         });
       }
+    }
+
+    function beginAssistantTurn() {
+      const result = assistantService.beginSubmit
+        ? assistantService.beginSubmit(state.assistant)
+        : assistantService.submit(state.assistant);
+
+      if (!result.ok) return result;
+
+      window.setTimeout(() => {
+        if (assistantService.completePendingResponse) {
+          const completed = assistantService.completePendingResponse(state.assistant);
+          if (completed.ok) {
+            shouldScrollChatToEnd = true;
+            requestRender();
+          }
+        }
+      }, 800);
+
+      return result;
     }
 
     function queueChatScroll(rootElement) {
