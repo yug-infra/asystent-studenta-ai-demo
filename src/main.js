@@ -22,12 +22,16 @@
   };
 
   const toastNotifications = app.uiAdapters.createToastNotificationRenderer(rootElement);
+  const teamsTransition = app.teamsAdapters.createTeamsTransitionAdapter({
+    notifications: toastNotifications,
+    translate
+  });
   let shellRenderer;
 
   const scheduleWidget = app.uiAdapters.createScheduleWidgetRenderer({
     state,
     scheduleService,
-    toastNotifications,
+    teamsTransition,
     translate,
     requestRender() {
       shellRenderer.render();
