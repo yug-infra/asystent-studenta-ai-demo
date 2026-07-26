@@ -65,7 +65,7 @@ button {
   min-height: 0;
   border: 1px solid var(--app-border);
   border-radius: 18px;
-  background: linear-gradient(180deg, #ffffff, #f7f8fe);
+  background: linear-gradient(180deg, var(--app-surface), var(--app-panel));
   box-shadow: 0 18px 45px rgba(31, 41, 80, 0.12);
   overflow: hidden;
 }
@@ -630,5 +630,87 @@ button {
   .toast-region {
     right: 12px;
     bottom: 12px;
+  }
+}
+
+/* Assistant interaction polish */
+.assistant-clear-chat {
+  min-height: 30px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.teams-button,
+.details-link,
+.segmented__item,
+.assistant-message[data-assistant-open-scene] .assistant-message__bubble {
+  transform: none;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    color 160ms ease,
+    opacity 160ms ease;
+}
+
+.teams-button:active,
+.details-link:active,
+.segmented__item:active,
+.assistant-message[data-assistant-open-scene]:active .assistant-message__bubble {
+  transform: none;
+  box-shadow: none;
+}
+
+.assistant-message[data-assistant-open-scene] .assistant-message__bubble:hover {
+  border-color: var(--app-primary-strong);
+  box-shadow: 0 0 0 2px var(--app-primary-soft);
+}
+
+.assistant-message--assistant[data-assistant-open-scene]:active .assistant-message__bubble {
+  background: var(--app-surface);
+  color: var(--app-text);
+}
+
+.assistant-thinking {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.assistant-thinking p {
+  color: var(--app-text-muted);
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.assistant-thinking__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--app-primary-strong);
+  animation: assistant-thinking-pulse 800ms ease-in-out infinite;
+}
+
+.assistant-thinking__dot:nth-child(2) {
+  animation-delay: 120ms;
+}
+
+.assistant-thinking__dot:nth-child(3) {
+  animation-delay: 240ms;
+}
+
+@keyframes assistant-thinking-pulse {
+  0%,
+  80%,
+  100% {
+    opacity: 0.35;
+    transform: translateY(0);
+  }
+
+  40% {
+    opacity: 1;
+    transform: translateY(-2px);
   }
 }
