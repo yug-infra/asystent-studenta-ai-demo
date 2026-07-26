@@ -40,7 +40,7 @@
 
 .assistant-workspace {
   display: grid;
-  grid-template-columns: minmax(320px, 0.7fr) minmax(640px, 1.3fr);
+  grid-template-columns: minmax(420px, 30%) minmax(0, 1fr);
   align-items: stretch;
   gap: 12px;
   height: 100%;
@@ -79,7 +79,7 @@
 
 .assistant-question-select {
   width: 100%;
-  min-height: 42px;
+  min-height: 38px;
   appearance: none;
   border: 1px solid var(--app-border-strong);
   border-radius: 12px;
@@ -89,7 +89,8 @@
     var(--app-surface);
   color: var(--app-text);
   font: inherit;
-  font-weight: 750;
+  font-size: 13px;
+  font-weight: 600;
   padding: 0 44px 0 12px;
   transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
 }
@@ -117,11 +118,11 @@
 .assistant-message-list {
   display: grid;
   align-content: start;
-  gap: 10px;
+  gap: 8px;
   min-height: 0;
   scroll-behavior: smooth;
   overflow: auto;
-  padding: 14px;
+  padding: 10px 14px;
 }
 
 .assistant-message {
@@ -137,12 +138,13 @@
 }
 
 .assistant-message__bubble {
-  max-width: 82%;
+  max-width: min(88%, 520px);
   border: 1px solid var(--app-border-strong);
   border-radius: 16px;
   background: var(--app-surface);
-  padding: 12px 14px;
-  line-height: 1.45;
+  padding: 11px 13px;
+  font-size: 14px;
+  line-height: 1.35;
 }
 
 .assistant-message--student .assistant-message__bubble {
@@ -186,6 +188,7 @@
   border-radius: 10px;
   background: var(--app-surface);
   color: var(--app-text);
+  font-size: 13px;
   padding: 0 10px;
 }
 
@@ -208,7 +211,6 @@
   align-content: start;
   gap: 14px;
   border: 1px solid var(--app-border);
-  border-left: 4px solid var(--app-primary);
   border-radius: 14px;
   background:
     linear-gradient(180deg, var(--app-panel), var(--app-surface));
@@ -225,6 +227,16 @@
   margin: 0;
 }
 
+.assistant-scene-card h3 {
+  font-size: 22px;
+  line-height: 1.2;
+}
+
+.assistant-scene-card p {
+  font-size: 13px;
+  line-height: 1.45;
+}
+
 .assistant-metrics,
 .assistant-resource-grid {
   display: grid;
@@ -234,7 +246,7 @@
 }
 
 .assistant-resource-grid {
-  align-items: flex-start;
+  align-items: start;
 }
 
 .assistant-metric {
@@ -287,6 +299,11 @@
   padding: 12px;
 }
 
+.assistant-resource-column h4 {
+  font-size: 13px;
+  line-height: 1.25;
+}
+
 .assistant-lab,
 .assistant-priority,
 .assistant-resource-item {
@@ -301,14 +318,21 @@
 }
 
 .assistant-resource-item {
+  min-height: 72px;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.assistant-resource-item {
   align-items: start;
 }
 
 .assistant-resource-action {
-  align-self: start;
+  align-self: center;
   justify-self: end;
-  min-height: 34px;
-  padding: 0 10px;
+  min-height: 38px;
+  padding: 0 12px;
+  font-size: 12px;
   white-space: nowrap;
 }
 
