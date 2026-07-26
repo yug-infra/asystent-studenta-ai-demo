@@ -80,7 +80,7 @@
       assistantTodo: "Do zrobienia",
       open: "Otwórz",
       assistantDemoToastTitle: "Prototyp",
-      assistantDemoToastMessage: "To jest demonstracyjne przejście. W pełnej wersji zostanie podłączony prawdziwy adapter."
+      assistantDemoToastMessage: "To jest demonstracyjne przejście. W pełnej wersji zostanie podłączony prawdziwy API adapter."
     },
     en: {
       appTitle: "AI Student Assistant",
@@ -156,7 +156,7 @@
       assistantTodo: "To do",
       open: "Open",
       assistantDemoToastTitle: "Prototype",
-      assistantDemoToastMessage: "This is a demo transition. The full version will connect a real adapter."
+      assistantDemoToastMessage: "This is a demo transition. The full version will connect a real API adapter."
     }
   };
 

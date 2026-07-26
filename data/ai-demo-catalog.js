@@ -13,8 +13,8 @@
         en: "What class do I have now?"
       },
       answer: {
-        pl: "Teraz możesz szybko sprawdzić najbliższe zajęcia i przejść do właściwego kontekstu Teams. Kliknij odpowiedź, aby zobaczyć scenę szczegółów.",
-        en: "You can quickly check the nearest class and move to the right Teams context. Click the answer to open the details scene."
+        pl: "Znalazłem najbliższe zajęcia i przygotowałem kartę z godziną, grupą oraz demonstracyjnym przejściem do Teams. Kliknij tę odpowiedź, aby zobaczyć szczegóły po prawej.",
+        en: "I found the nearest class and prepared a card with time, group and a demo Teams transition. Click this answer to see the details on the right."
       }
     },
     {
@@ -25,8 +25,8 @@
         en: "What do I still need to complete in AWS?"
       },
       answer: {
-        pl: "W demo ukończone są 3 z 8 laboratoriów AWS. Pozostałe zadania można pokazać jako listę z przejściami do teorii, zadań i testów.",
-        en: "In the demo, 3 of 8 AWS labs are complete. Remaining tasks can be shown as a list with transitions to theory, assignments and tests."
+        pl: "W demo ukończone są 3 z 8 laboratoriów AWS. Po prawej mogę pokazać pasek postępu i listę zadań do domknięcia.",
+        en: "In the demo, 3 of 8 AWS labs are complete. On the right, I can show a progress bar and the remaining task list."
       }
     },
     {
@@ -37,8 +37,8 @@
         en: "Show all AWS resources"
       },
       answer: {
-        pl: "Asystent może zebrać wykłady, laboratoria i dodatkowe materiały AWS w jednym ekranie, bez ręcznego szukania po kanałach.",
-        en: "The assistant can collect AWS lectures, labs and extra materials in one screen, without manual searching through channels."
+        pl: "Asystent może zebrać wykłady, laboratoria i dodatkowe materiały AWS w jednym ekranie. Przyciski są demonstracyjne i wymagają późniejszego API.",
+        en: "The assistant can collect AWS lectures, labs and extra materials in one screen. The buttons are demo-only and need a future API."
       }
     },
     {
@@ -61,8 +61,8 @@
         en: "Add a meeting to the Teams calendar"
       },
       answer: {
-        pl: "Dla prowadzącego można przygotować spotkanie, dobrać grupy i pokazać demonstracyjne przejście do Teams Calendar.",
-        en: "For a teacher, the assistant can prepare a meeting, select groups and show a demo transition to Teams Calendar."
+        pl: "Dla prowadzącego można przygotować spotkanie i dobrać grupy. Dodanie wydarzenia do Teams Calendar pozostaje demonstracją do czasu podłączenia API.",
+        en: "For a teacher, the assistant can prepare a meeting and select groups. Adding it to Teams Calendar remains demo-only until an API is connected."
       }
     }
   ];
