@@ -78,9 +78,23 @@
       clickableHint: "Kliknij odpowiedź, aby otworzyć scenę",
       assistantDone: "Wykonano",
       assistantTodo: "Do zrobienia",
-      open: "Otwórz",
-      assistantDemoToastTitle: "Prototyp",
-      assistantDemoToastMessage: "To jest demonstracyjne przejście. W pełnej wersji zostanie podłączony prawdziwy API adapter."
+      open: "Przejdź",
+      assistantAwsTheory: "Przejdź do teorii",
+      assistantAwsTask: "Przejdź do zadania",
+      assistantAwsTests: "Przejdź do testów",
+      assistantAwsTestResult: "Wynik testu",
+      assistantAwsTestsRepeat: "Możesz przejść test ponownie.",
+      assistantDemoToastTitle: "Przejście demonstracyjne",
+      assistantDemoToastMessage: "W pełnej wersji zostaniesz przekierowany do właściwego systemu.",
+      assistantAwsTheoryToast: "W pełnej wersji zostaniesz przekierowany do materiału wideo.",
+      assistantAwsTaskToast: "W pełnej wersji zostaniesz przekierowany do zadania w Moodle.",
+      assistantAwsTestsToast: "W pełnej wersji zostaniesz przekierowany do testów w AWS OnDemand.",
+      assistantAwsLectureToast: "W pełnej wersji zostaniesz przekierowany do wybranego nagrania wykładu.",
+      assistantAwsLabToast: "W pełnej wersji zostaniesz przekierowany do wybranego laboratorium.",
+      assistantAwsTeamsToast: "W pełnej wersji zostaniesz przekierowany do materiałów AWS w Microsoft Teams.",
+      assistantAwsMoodleToast: "W pełnej wersji zostaniesz przekierowany do materiałów AWS w Moodle.",
+      assistantAwsOnDemandToast: "W pełnej wersji zostaniesz przekierowany do materiałów i testów w AWS OnDemand.",
+      assistantTeacherToastMessage: "W rzeczywistej wersji spotkanie zostanie dodane do kalendarza Microsoft Teams i przypisane do wybranych grup."
     },
     en: {
       appTitle: "AI Student Assistant",
@@ -155,8 +169,22 @@
       assistantDone: "Done",
       assistantTodo: "To do",
       open: "Open",
-      assistantDemoToastTitle: "Prototype",
-      assistantDemoToastMessage: "This is a demo transition. The full version will connect a real API adapter."
+      assistantAwsTheory: "Go to theory",
+      assistantAwsTask: "Go to assignment",
+      assistantAwsTests: "Go to tests",
+      assistantAwsTestResult: "Test result",
+      assistantAwsTestsRepeat: "You can take the test again.",
+      assistantDemoToastTitle: "Demo transition",
+      assistantDemoToastMessage: "In the full version, you will be redirected to the target system.",
+      assistantAwsTheoryToast: "In the full version, you will be redirected to the video material.",
+      assistantAwsTaskToast: "In the full version, you will be redirected to the assignment in Moodle.",
+      assistantAwsTestsToast: "In the full version, you will be redirected to tests in AWS OnDemand.",
+      assistantAwsLectureToast: "In the full version, you will be redirected to the selected lecture recording.",
+      assistantAwsLabToast: "In the full version, you will be redirected to the selected laboratory.",
+      assistantAwsTeamsToast: "In the full version, you will be redirected to AWS materials in Microsoft Teams.",
+      assistantAwsMoodleToast: "In the full version, you will be redirected to AWS materials in Moodle.",
+      assistantAwsOnDemandToast: "In the full version, you will be redirected to materials and tests in AWS OnDemand.",
+      assistantTeacherToastMessage: "In the real version, the meeting will be added to the Microsoft Teams calendar and assigned to selected groups."
     }
   };
 
