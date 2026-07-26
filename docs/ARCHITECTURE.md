@@ -19,9 +19,9 @@ These documents define the behavior that later code layers should satisfy.
 |---|---|---|
 | Domain | Core concepts and rules | schedule records, teachers, AI demo catalog |
 | Application | Use-case services and facades | schedule service, AI assistant service |
-| Adapters | Browser and external boundaries | schedule widget renderer, shell renderer, toast notification renderer, Teams transition adapter |
+| Adapters | Browser and external boundaries | schedule widget renderer, assistant widget renderer, shell renderer, toast notification renderer, Teams transition adapter |
 | Shared | Cross-cutting frontend utilities | i18n resources/translator facade, theme tokens/service facade |
-| Data | Static demo data | schedule dataset |
+| Data | Static demo data | schedule dataset, AI fixture catalog |
 
 ## Dependency Direction
 
@@ -47,12 +47,13 @@ The GitHub Pages entry point is intentionally thin:
 | `src/main.js` | Application bootstrap and dependency wiring |
 | `src/adapters/ui/shell-renderer.js` | Desktop-first shell rendering, tabs and UI events |
 | `src/adapters/ui/styles.css` | CSS variables, layout rules and responsive shell behavior |
+| `src/adapters/ui/assistant-widget.css` | Assistant-specific widget, chat and visual scene styles |
 | `src/adapters/ui/toast-notification-renderer.js` | Small notification adapter for demo actions and future integration feedback |
 | `src/adapters/teams/teams-transition-adapter.js` | Frontend-only Teams transition boundary used by schedule actions |
 
 The shell behaves like separate workbook-style screens: the schedule tab and the AI assistant tab are not rendered as two always-visible columns. The active tab controls which screen is visible, while later detail panels can still be opened inside the selected feature.
 
-This keeps the page host separate from the UI adapter and prepares the next PRs to attach schedule and AI widgets without rewriting the shell.
+This keeps the page host separate from feature widgets. The shell receives already-created `scheduleWidget` and `assistantWidget` adapters from `src/main.js` and only coordinates tab, language and theme events.
 
 ## Schedule Flow
 
@@ -71,6 +72,26 @@ The renderer does not read raw data directly. It asks the application service fo
 The schedule screen follows the original prototype composition: one feature screen with a top control area, a dense filter row, a left schedule table/list widget and a right details/Teams widget. This keeps widget types consistent across the UI while still preserving the tab boundary between schedule and AI assistant screens.
 
 The public schedule slice is documented as February-June 2026. It was parsed semi-automatically and should be treated as demo data that may need manual verification.
+
+## AI Assistant Flow
+
+The AI feature is a public demo fixture flow, not a production AI integration:
+
+| File | Responsibility |
+|---|---|
+| `data/ai-demo-catalog.js` | Prepared questions, answer fixtures, AWS labs and visual scene fixtures |
+| `src/application/assistant/assistant-service.js` | Chat state defaults, submit/clear/open-scene use cases and five-question demo limit |
+| `src/adapters/ui/assistant-widget-renderer.js` | Browser rendering and UI event handling for prepared questions, cumulative chat and visual scenes |
+| `src/adapters/ui/assistant-widget.css` | Assistant-specific responsive layout and component styles |
+
+The assistant tab follows the prototype behavior:
+
+- the student selects a prepared question or types a custom one;
+- each submitted question and answer is appended to chat history;
+- clicking an assistant answer opens the related visual scene on the right;
+- `New chat` clears the history and hides the active scene;
+- the public demo is limited to five submitted questions;
+- custom questions fall back to a demo feedback scene until a real AI adapter exists.
 
 ## Teams Transition Flow
 
@@ -135,12 +156,12 @@ sequenceDiagram
     participant Domain
     participant Adapter as External Adapter
 
-    Student->>UI: Selects schedule action
+    Student->>UI: Selects schedule or AI action
     UI->>App: Calls use-case facade
-    App->>Domain: Normalizes or queries schedule data
+    App->>Domain: Normalizes or queries demo data
     Domain-->>App: View-ready result
     App-->>UI: Response model
-    UI-->>Student: Rendered schedule / details
+    UI-->>Student: Rendered schedule / chat / scene
     UI->>Adapter: Optional Teams transition
 ```
 
@@ -151,8 +172,8 @@ Some parts are intentionally demo/stub implementations:
 | Boundary | Current form | Future replacement |
 |---|---|---|
 | Teams transition | Frontend Teams adapter with toast feedback | Microsoft Graph / Teams API adapter |
-| AI responses | Fixture/catalog data | Real AI assistant API adapter |
-| Learning resources | Planned only | Moodle / on-demand resources adapter |
+| AI responses | Fixture/catalog data with visual scenes | Real AI assistant API adapter |
+| Learning resources | Fixture scenes only | Moodle / on-demand resources adapter |
 | Storage/cache | Planned only | Browser extension storage/cache adapter |
 
 ## Documentation And Diagrams
