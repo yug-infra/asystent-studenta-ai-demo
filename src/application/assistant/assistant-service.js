@@ -3,6 +3,13 @@
   "use strict";
 
   function createAssistantService(catalog) {
+    const meetingDictionary = catalog.MEETING_DICTIONARY || { subjects: [], teachers: [] };
+
+    function createTeacherMeetingDefaultState() {
+      const base = catalog.MEETING_DEFAULT_STATE || {};
+      return { date: base.date || "2026-06-15", duration: base.duration || "90", groupIds: [...(base.groupIds || [])], profileIds: [...(base.profileIds || [])], subjectId: base.subjectId || "", teacherId: base.teacherId || "", time: base.time || "18:00", topic: base.topic || "" };
+    }
+
     function createDefaultState() {
       return {
         activeSceneId: "",
@@ -11,7 +18,8 @@
         messageSeq: 0,
         messages: [],
         pendingResponse: null,
-        selectedQuestionId: ""
+        selectedQuestionId: "",
+        teacherMeeting: createTeacherMeetingDefaultState()
       };
     }
 
@@ -166,15 +174,72 @@
       return value[lang] || value.pl || value.en || "";
     }
 
+
+    function ensureTeacherMeeting(state) {
+      if (!state.teacherMeeting) state.teacherMeeting = createTeacherMeetingDefaultState();
+      return state.teacherMeeting;
+    }
+
+    function getTeacherMeetingSubject(state) {
+      const meeting = ensureTeacherMeeting(state);
+      return meetingDictionary.subjects.find((subject) => subject.id === meeting.subjectId) || meetingDictionary.subjects[0] || { id: "", label: { pl: "", en: "" }, profiles: [], teacherIds: [] };
+    }
+
+    function getTeacherMeetingViewModel(state, lang) {
+      const meeting = ensureTeacherMeeting(state);
+      const subject = getTeacherMeetingSubject(state);
+      const selectedProfiles = new Set(meeting.profileIds || []);
+      const availableGroups = (subject.profiles || []).filter((profile) => selectedProfiles.has(profile.id)).flatMap((profile) => profile.groups || []);
+      meeting.groupIds = (meeting.groupIds || []).filter((groupId) => availableGroups.includes(groupId));
+      const subjectTeacherIds = new Set(subject.teacherIds || []);
+      const teachers = (meetingDictionary.teachers || []).map((teacher) => ({ ...teacher, isSubjectTeacher: subjectTeacherIds.has(teacher.id) })).sort((a, b) => Number(b.isSubjectTeacher) - Number(a.isSubjectTeacher) || a.label.localeCompare(b.label, "pl"));
+      return { availableGroups, date: meeting.date || "", duration: meeting.duration || "90", groupIds: meeting.groupIds || [], profileIds: meeting.profileIds || [], profiles: subject.profiles || [], subject, subjectId: subject.id, subjects: meetingDictionary.subjects || [], teacherId: meeting.teacherId || "", teachers, time: meeting.time || "", topic: meeting.topic || (localize(subject.label, lang) + " - wykład") };
+    }
+
+    function setTeacherMeetingSubject(state, subjectId) {
+      const meeting = ensureTeacherMeeting(state);
+      const subject = (meetingDictionary.subjects || []).find((item) => item.id === subjectId) || getTeacherMeetingSubject(state);
+      meeting.subjectId = subject.id;
+      meeting.profileIds = (subject.profiles || []).map((profile) => profile.id);
+      meeting.groupIds = (subject.profiles || []).flatMap((profile) => profile.groups || []);
+      const teacherIds = subject.teacherIds || [];
+      if (!teacherIds.includes(meeting.teacherId)) meeting.teacherId = teacherIds[0] || meetingDictionary.defaultTeacherId || ((meetingDictionary.teachers || [])[0] || {}).id || "";
+      const title = localize(subject.label, "pl");
+      meeting.topic = title ? title + " - wykład" : meeting.topic;
+    }
+
+    function setTeacherMeetingTeacher(state, teacherId) { ensureTeacherMeeting(state).teacherId = String(teacherId || ""); }
+    function setTeacherMeetingProfile(state, profileId, checked) {
+      const meeting = ensureTeacherMeeting(state);
+      const subject = getTeacherMeetingSubject(state);
+      const profile = (subject.profiles || []).find((item) => item.id === profileId);
+      meeting.profileIds = checked ? [...new Set([...(meeting.profileIds || []), profileId])] : (meeting.profileIds || []).filter((item) => item !== profileId);
+      if (!profile) return;
+      meeting.groupIds = checked ? [...new Set([...(meeting.groupIds || []), ...(profile.groups || [])])] : (meeting.groupIds || []).filter((groupId) => !(profile.groups || []).includes(groupId));
+    }
+    function setTeacherMeetingGroup(state, groupId, checked) {
+      const meeting = ensureTeacherMeeting(state);
+      meeting.groupIds = checked ? [...new Set([...(meeting.groupIds || []), groupId])] : (meeting.groupIds || []).filter((item) => item !== groupId);
+    }
+    function setTeacherMeetingField(state, field, value) {
+      if (["date", "duration", "time", "topic"].includes(field)) ensureTeacherMeeting(state)[field] = String(value || "");
+    }
+
     return {
       catalog,
       beginSubmit,
       clear,
       completePendingResponse,
       createDefaultState,
+      getTeacherMeetingViewModel,
       getViewModel,
       localize,
       openScene,
+      setTeacherMeetingField,
+      setTeacherMeetingGroup,
+      setTeacherMeetingProfile,
+      setTeacherMeetingSubject,
+      setTeacherMeetingTeacher,
       setInput,
       setSelectedQuestion,
       submit
