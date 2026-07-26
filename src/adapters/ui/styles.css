@@ -580,13 +580,22 @@ button {
 }
 
 @media (max-width: 920px) {
+  body {
+    overflow: auto;
+  }
+
   #app {
+    height: auto;
+    min-height: 100dvh;
+    overflow: visible;
     padding: 10px;
   }
 
   .app-shell {
-    min-height: calc(100vh - 20px);
+    height: auto;
+    min-height: calc(100dvh - 20px);
     border-radius: 14px;
+    overflow: visible;
   }
 
   .app-header,
@@ -601,20 +610,33 @@ button {
   }
 
   .workspace {
-    min-height: 0;
+    min-height: auto;
+    overflow: visible;
   }
 
   .panel {
     padding: 18px;
+    overflow: visible;
+  }
+
+  .workspace[data-active-tab="schedule"] .panel--schedule,
+  .workspace[data-active-tab="assistant"] .panel--assistant {
+    height: auto;
+  }
+
+  .schedule-widget {
+    height: auto;
   }
 
   .schedule-workspace {
-    min-height: 0;
+    min-height: auto;
+    overflow: visible;
   }
 
   .schedule-table__body {
+    overflow-x: auto;
     max-height: none;
-    min-height: 0;
+    min-height: 360px;
   }
 
   .placeholder-grid {
@@ -627,12 +649,50 @@ button {
 }
 
 @media (max-width: 640px) {
+  .app-title-block h1 {
+    font-size: 20px;
+  }
+
+  .app-title-block p:not(.app-kicker),
+  .placeholder-card p {
+    font-size: 12px;
+  }
+
+  .app-header,
+  .panel,
+  .schedule-toolbar {
+    padding: 12px;
+  }
+
+  .app-controls,
+  .segmented {
+    width: 100%;
+  }
+
+  .segmented {
+    justify-content: stretch;
+  }
+
+  .segmented__item {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 0 9px;
+    font-size: 12px;
+  }
+
   .schedule-filters {
     grid-template-columns: 1fr;
   }
 
   .panel__header {
     display: grid;
+  }
+
+  .schedule-table__header,
+  .schedule-row {
+    min-width: 760px;
+    grid-template-columns: 62px 70px 82px minmax(120px, 1fr) minmax(120px, 0.9fr) 80px minmax(150px, 1fr);
+    gap: 8px;
   }
 
   .toast-region {

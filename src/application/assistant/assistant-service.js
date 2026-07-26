@@ -23,6 +23,36 @@
       };
     }
 
+    function hydrateState(value) {
+      const defaults = createDefaultState();
+      const source = value && typeof value === "object" ? value : {};
+      const messages = Array.isArray(source.messages)
+        ? source.messages.map(normalizeMessage).filter(Boolean).slice(-20)
+        : [];
+      const teacherMeeting = normalizeTeacherMeeting(source.teacherMeeting, defaults.teacherMeeting);
+
+      return {
+        ...defaults,
+        activeSceneId: getScene(source.activeSceneId) ? source.activeSceneId : "",
+        input: typeof source.input === "string" ? source.input : "",
+        messageSeq: messages.reduce((max, message) => Math.max(max, extractMessageSeq(message.id)), 0),
+        messages,
+        selectedQuestionId: findQuestion(source.selectedQuestionId) ? source.selectedQuestionId : "",
+        teacherMeeting
+      };
+    }
+
+    function serializeState(state) {
+      const safeState = state || createDefaultState();
+      return {
+        activeSceneId: getScene(safeState.activeSceneId) ? safeState.activeSceneId : "",
+        input: String(safeState.input || ""),
+        messages: (safeState.messages || []).map(normalizeMessage).filter(Boolean).slice(-20),
+        selectedQuestionId: findQuestion(safeState.selectedQuestionId) ? safeState.selectedQuestionId : "",
+        teacherMeeting: normalizeTeacherMeeting(safeState.teacherMeeting, createTeacherMeetingDefaultState())
+      };
+    }
+
     function getViewModel(state, lang) {
       const safeState = state || createDefaultState();
       const questionsUsed = countStudentMessages(safeState);
@@ -155,6 +185,44 @@
       state.selectedQuestionId = "";
     }
 
+    function normalizeMessage(message) {
+      if (!message || typeof message !== "object") return null;
+      const role = message.role === "assistant" ? "assistant" : message.role === "student" ? "student" : "";
+      if (!role) return null;
+      const text = typeof message.text === "string" || (message.text && typeof message.text === "object")
+        ? message.text
+        : "";
+      if (!text) return null;
+      const normalized = {
+        id: typeof message.id === "string" ? message.id : `assistant_message_${Date.now()}`,
+        role,
+        text
+      };
+      if (role === "assistant" && getScene(message.sceneId)) {
+        normalized.sceneId = message.sceneId;
+      }
+      return normalized;
+    }
+
+    function normalizeTeacherMeeting(value, fallback) {
+      const source = value && typeof value === "object" ? value : {};
+      return {
+        date: typeof source.date === "string" ? source.date : fallback.date,
+        duration: typeof source.duration === "string" ? source.duration : String(fallback.duration || "90"),
+        groupIds: Array.isArray(source.groupIds) ? source.groupIds.map(String) : [...(fallback.groupIds || [])],
+        profileIds: Array.isArray(source.profileIds) ? source.profileIds.map(String) : [...(fallback.profileIds || [])],
+        subjectId: typeof source.subjectId === "string" ? source.subjectId : fallback.subjectId,
+        teacherId: typeof source.teacherId === "string" ? source.teacherId : fallback.teacherId,
+        time: typeof source.time === "string" ? source.time : fallback.time,
+        topic: typeof source.topic === "string" ? source.topic : fallback.topic
+      };
+    }
+
+    function extractMessageSeq(messageId) {
+      const match = String(messageId || "").match(/_(\d+)$/);
+      return match ? Number(match[1]) || 0 : 0;
+    }
+
     function getScene(sceneId) {
       if (!sceneId) return null;
       return catalog.SCENES[sceneId] || null;
@@ -233,8 +301,10 @@
       createDefaultState,
       getTeacherMeetingViewModel,
       getViewModel,
+      hydrateState,
       localize,
       openScene,
+      serializeState,
       setTeacherMeetingField,
       setTeacherMeetingGroup,
       setTeacherMeetingProfile,

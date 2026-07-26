@@ -345,7 +345,10 @@
       if (meetingTeacher) meetingTeacher.addEventListener("change", () => { assistantService.setTeacherMeetingTeacher(state.assistant, meetingTeacher.value); requestRender(); });
       rootElement.querySelectorAll("[data-assistant-meeting-profile]").forEach((checkbox) => checkbox.addEventListener("change", () => { assistantService.setTeacherMeetingProfile(state.assistant, checkbox.value, checkbox.checked); requestRender(); }));
       rootElement.querySelectorAll("[data-assistant-meeting-group]").forEach((checkbox) => checkbox.addEventListener("change", () => { assistantService.setTeacherMeetingGroup(state.assistant, checkbox.value, checkbox.checked); requestRender(); }));
-      rootElement.querySelectorAll("[data-assistant-meeting-field]").forEach((field) => field.addEventListener("change", () => assistantService.setTeacherMeetingField(state.assistant, field.dataset.assistantMeetingField, field.value)));
+      rootElement.querySelectorAll("[data-assistant-meeting-field]").forEach((field) => field.addEventListener("change", () => {
+        assistantService.setTeacherMeetingField(state.assistant, field.dataset.assistantMeetingField, field.value);
+        requestRender();
+      }));
 
       queueChatScroll(rootElement);
 
