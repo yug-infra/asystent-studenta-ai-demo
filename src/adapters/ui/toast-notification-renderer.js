@@ -4,29 +4,37 @@
 
   function createToastNotificationRenderer(rootElement) {
     let containerElement = null;
-    let dismissTimer = 0;
+    const activeTimers = new WeakMap();
 
     function show(notification) {
       ensureContainer();
-      clearTimer();
 
-      containerElement.innerHTML = renderNotification(notification);
-      containerElement.classList.add("is-visible");
+      const toastElement = document.createElement("aside");
+      toastElement.className = "toast-notification";
+      toastElement.setAttribute("role", "status");
+      toastElement.innerHTML = renderNotification(notification);
+      containerElement.appendChild(toastElement);
 
-      const toastElement = containerElement.querySelector(".toast-notification");
-      if (toastElement) {
-        toastElement.addEventListener("mouseenter", clearTimer);
-        toastElement.addEventListener("mouseleave", scheduleHide);
-      }
+      const timers = { hide: 0, remove: 0 };
+      activeTimers.set(toastElement, timers);
 
-      scheduleHide();
+      toastElement.addEventListener("mouseenter", () => clearTimers(toastElement));
+      toastElement.addEventListener("mouseleave", () => scheduleHide(toastElement));
+
+      window.requestAnimationFrame(() => {
+        toastElement.classList.add("is-visible");
+      });
+
+      scheduleHide(toastElement);
     }
 
     function hide() {
-      clearTimer();
-      if (containerElement) {
-        containerElement.classList.remove("is-visible");
-      }
+      if (!containerElement) return;
+
+      Array.from(containerElement.querySelectorAll(".toast-notification")).forEach((toastElement) => {
+        clearTimers(toastElement);
+        beginDismiss(toastElement);
+      });
     }
 
     function ensureContainer() {
@@ -34,7 +42,7 @@
         containerElement = document.createElement("div");
         containerElement.className = "toast-region";
         containerElement.setAttribute("aria-live", "polite");
-        containerElement.setAttribute("aria-atomic", "true");
+        containerElement.setAttribute("aria-atomic", "false");
       }
 
       if (!containerElement.isConnected) {
@@ -44,24 +52,46 @@
 
     function renderNotification(notification) {
       return `
-        <aside class="toast-notification" role="status">
-          <div>
-            <strong>${escapeHtml(notification.title)}</strong>
-            <p>${escapeHtml(notification.message)}</p>
-          </div>
-          <span>${escapeHtml(notification.badge)}</span>
-        </aside>`;
+        <div>
+          <strong>${escapeHtml(notification.title)}</strong>
+          <p>${escapeHtml(notification.message)}</p>
+        </div>
+        <span>${escapeHtml(notification.badge)}</span>`;
     }
 
-    function scheduleHide() {
-      clearTimer();
-      dismissTimer = window.setTimeout(hide, 4200);
+    function scheduleHide(toastElement) {
+      clearTimers(toastElement);
+      const timers = activeTimers.get(toastElement) || { hide: 0, remove: 0 };
+      timers.hide = window.setTimeout(() => beginDismiss(toastElement), 2000);
+      activeTimers.set(toastElement, timers);
     }
 
-    function clearTimer() {
-      if (dismissTimer) {
-        window.clearTimeout(dismissTimer);
-        dismissTimer = 0;
+    function beginDismiss(toastElement) {
+      if (!toastElement || toastElement.classList.contains("is-leaving")) return;
+
+      toastElement.classList.add("is-leaving");
+      toastElement.classList.remove("is-visible");
+
+      const timers = activeTimers.get(toastElement) || { hide: 0, remove: 0 };
+      timers.remove = window.setTimeout(() => {
+        activeTimers.delete(toastElement);
+        toastElement.remove();
+      }, 2100);
+      activeTimers.set(toastElement, timers);
+    }
+
+    function clearTimers(toastElement) {
+      const timers = activeTimers.get(toastElement);
+      if (!timers) return;
+
+      if (timers.hide) {
+        window.clearTimeout(timers.hide);
+        timers.hide = 0;
+      }
+
+      if (timers.remove) {
+        window.clearTimeout(timers.remove);
+        timers.remove = 0;
       }
     }
 
