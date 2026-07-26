@@ -7,12 +7,14 @@
     const t = dependencies.translate;
     const scheduleService = dependencies.scheduleService;
     const requestRender = dependencies.requestRender;
-    const toastNotifications = dependencies.toastNotifications;
+    const teamsTransition = dependencies.teamsTransition;
+    let renderedItems = [];
 
     function render() {
       const model = scheduleService.getScheduleViewModel(state.scheduleFilters, state.language);
       const options = scheduleService.getFilterOptions(state.language);
       const selectedItem = selectActiveItem(model.items);
+      renderedItems = model.items;
 
       return `
         <div class="schedule-widget">
@@ -111,7 +113,7 @@
               <span>${escapeHtml(item.activityType)}</span>
             </div>
             <code>${escapeHtml(item.teamName)}</code>
-            <button class="teams-button" data-teams-transition type="button">${t("openTeams")}</button>
+            <button class="teams-button" data-teams-transition="${escapeAttribute(item.id)}" type="button">${t("openTeams")}</button>
           </article>
         </div>`;
     }
@@ -152,11 +154,8 @@
 
       rootElement.querySelectorAll("[data-teams-transition]").forEach((button) => {
         button.addEventListener("click", () => {
-          toastNotifications.show({
-            title: t("toastTitle"),
-            message: t("toastMessage"),
-            badge: t("demoBadge")
-          });
+          const scheduleItem = renderedItems.find((item) => item.id === button.dataset.teamsTransition) || null;
+          teamsTransition.openScheduleItem(scheduleItem);
         });
       });
     }
@@ -178,7 +177,7 @@
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
+      .replace(/\"/g, "&quot;")
       .replace(/'/g, "&#039;");
   }
 
