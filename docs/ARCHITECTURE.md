@@ -96,7 +96,8 @@ The assistant tab follows the prototype behavior:
 - `New chat` clears the history and hides the active scene;
 - the public demo is limited to five submitted questions;
 - custom questions fall back to a demo feedback scene until a real AI adapter exists;
-- actions inside visual scenes use the toast notification adapter to explain that real API integration is required.
+- actions inside visual scenes use the toast notification adapter to explain that real API integration is required;
+- the shell persists only `activeTab` and `activeAssistantSceneId` in `localStorage`, so reload returns to the assistant tab and the last right-side visual scene without restoring chat history or draft input.
 
 ## Teams Transition Flow
 
@@ -179,7 +180,7 @@ Some parts are intentionally demo/stub implementations:
 | Teams transition | Frontend Teams adapter with toast feedback | Microsoft Graph / Teams API adapter |
 | AI responses | Fixture/catalog data with visual scenes | Real AI assistant API adapter |
 | Learning resources | Fixture scenes only | Moodle / on-demand resources adapter |
-| Storage/cache | Planned only | Browser extension storage/cache adapter |
+| Storage/cache | `localStorage` for active tab and active assistant scene only | Browser extension storage/cache adapter |
 
 ## Documentation And Diagrams
 
