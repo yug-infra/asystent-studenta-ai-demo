@@ -233,6 +233,10 @@
   gap: 10px;
 }
 
+.assistant-resource-grid {
+  align-items: flex-start;
+}
+
 .assistant-metric {
   border: 1px solid var(--app-border);
   border-radius: 12px;
@@ -275,6 +279,14 @@
   gap: 8px;
 }
 
+.assistant-resource-column {
+  align-self: start;
+  border: 1px solid var(--app-border);
+  border-radius: 12px;
+  background: var(--app-surface);
+  padding: 12px;
+}
+
 .assistant-lab,
 .assistant-priority,
 .assistant-resource-item {
@@ -286,6 +298,18 @@
   border-radius: 12px;
   background: var(--app-panel);
   padding: 12px;
+}
+
+.assistant-resource-item {
+  align-items: start;
+}
+
+.assistant-resource-action {
+  align-self: start;
+  justify-self: end;
+  min-height: 34px;
+  padding: 0 10px;
+  white-space: nowrap;
 }
 
 .assistant-lab { min-height: 76px; }

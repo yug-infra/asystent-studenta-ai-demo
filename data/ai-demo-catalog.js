@@ -2,7 +2,7 @@
 (function attachAiDemoCatalog(global) {
   "use strict";
 
-  const MAX_DEMO_QUESTIONS = 5;
+  const MAX_DEMO_QUESTIONS = null;
 
   const QUESTIONS = [
     {
