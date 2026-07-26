@@ -1,3 +1,29 @@
-.toast-region:not(.is-visible) .toast-notification {
+/* /asystent-studenta-ai-demo/src/adapters/ui/toast-notification.css */
+.toast-region {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
   pointer-events: none;
+}
+
+.toast-notification {
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 2000ms ease,
+    transform 2000ms ease;
+}
+
+.toast-notification.is-visible {
+  pointer-events: auto;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toast-notification.is-leaving {
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(10px);
 }
