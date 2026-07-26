@@ -97,6 +97,7 @@
 
       if (scene.resourceColumns) return renderResourceScene(scene);
       if (scene.priorities) return renderPriorityScene(scene);
+      if (scene.id === "teacher-meeting") return renderTeacherMeetingScene(scene);
       if (scene.formRows) return renderMeetingScene(scene);
       if (scene.id === "aws-progress") return renderAwsProgressScene(scene);
 
@@ -228,42 +229,39 @@
     }
 
     function renderTeacherMeetingScene(scene) {
-      const form = scene.meetingForm;
-      return `
+  const meeting = assistantService.getTeacherMeetingViewModel(state.assistant, state.language);
+  const selectedProfiles = new Set(meeting.profileIds || []);
+  const selectedGroups = new Set(meeting.groupIds || []);
+  const subjectOptions = meeting.subjects.map((subject) => {
+    const label = assistantService.localize(subject.label, state.language);
+    const code = subject.code ? " · " + subject.code : "";
+    return `<option value="${escapeAttribute(subject.id)}"${subject.id === meeting.subjectId ? " selected" : ""}>${escapeHtml(label + code)}</option>`;
+  }).join("");
+  const teacherOptions = meeting.teachers.map((teacher) => `<option value="${escapeAttribute(teacher.id)}"${teacher.id === meeting.teacherId ? " selected" : ""}>${escapeHtml((teacher.isSubjectTeacher ? "★ " : "") + teacher.label)}</option>`).join("");
+  const profileCheckboxes = meeting.profiles.map((profile) => `<label class="assistant-chip ${selectedProfiles.has(profile.id) ? "is-selected" : ""}"><input data-assistant-meeting-profile type="checkbox" value="${escapeAttribute(profile.id)}"${selectedProfiles.has(profile.id) ? " checked" : ""}><span>${escapeHtml(assistantService.localize(profile.label, state.language))}</span></label>`).join("");
+  const groupCheckboxes = meeting.availableGroups.map((group) => `<label class="assistant-chip ${selectedGroups.has(group) ? "is-selected" : ""}"><input data-assistant-meeting-group type="checkbox" value="${escapeAttribute(group)}"${selectedGroups.has(group) ? " checked" : ""}><span>${escapeHtml(group)}</span></label>`).join("");
+  const durationOptions = [45, 60, 90, 120].map((minutes) => `<option value="${minutes}"${String(minutes) === String(meeting.duration) ? " selected" : ""}>${minutes} min</option>`).join("");
+  return `
         <article class="assistant-scene-card assistant-scene-card--meeting">
           <p class="panel__kicker">${escapeHtml(scene.kicker)}</p>
           <h3>${escapeHtml(assistantService.localize(scene.title, state.language))}</h3>
           <p class="assistant-meeting-note">${escapeHtml(assistantService.localize(scene.copy, state.language))}</p>
           <div class="assistant-meeting-fields">
-            ${form.fields.map((field) => `
-              <label>
-                <span>${escapeHtml(assistantService.localize(field.label, state.language))}</span>
-                <input value="${escapeAttribute(assistantService.localize(field.value, state.language) || field.value)}" readonly>
-              </label>`).join("")}
+            <label><span>${escapeHtml(state.language === "en" ? "Subject" : "Przedmiot")}</span><select data-assistant-meeting-subject>${subjectOptions}</select></label>
+            <label><span>${escapeHtml(state.language === "en" ? "Teacher / meeting initiator" : "Prowadzący / inicjator spotkania")}</span><select data-assistant-meeting-teacher>${teacherOptions}</select></label>
+            <label><span>${escapeHtml(state.language === "en" ? "Mode and semester" : "Tryb i semestr")}</span><input value="${escapeAttribute(state.language === "en" ? "Part-time studies - semester 2" : "Studia niestacjonarne - 2 semestr")}" readonly></label>
           </div>
-          <fieldset class="assistant-meeting-group">
-            <legend>${escapeHtml(state.language === "en" ? "Profiles / full streams" : "Profile / całe strumienie")}</legend>
-            <p>${escapeHtml(state.language === "en" ? "Selecting a profile selects all groups assigned to it." : "Zaznaczenie profilu podciąga wszystkie przypisane do niego grupy.")}</p>
-            <div>${form.profiles.map((profile) => `<span class="assistant-chip is-selected">✓ ${escapeHtml(profile)}</span>`).join("")}</div>
-          </fieldset>
-          <fieldset class="assistant-meeting-group">
-            <legend>${escapeHtml(state.language === "en" ? "Groups" : "Grupy")}</legend>
-            <div>${form.groups.map((group) => `<span class="assistant-chip is-selected">✓ ${escapeHtml(group)}</span>`).join("")}</div>
-          </fieldset>
+          <fieldset class="assistant-meeting-group"><legend>${escapeHtml(state.language === "en" ? "Profiles / full streams" : "Profile / całe strumienie")}</legend><p>${escapeHtml(state.language === "en" ? "Selecting a profile selects all groups assigned to it." : "Zaznaczenie profilu podciąga wszystkie przypisane do niego grupy.")}</p><div>${profileCheckboxes}</div></fieldset>
+          <fieldset class="assistant-meeting-group"><legend>${escapeHtml(state.language === "en" ? "Groups" : "Grupy")}</legend><div>${groupCheckboxes}</div></fieldset>
           <div class="assistant-meeting-fields assistant-meeting-fields--schedule">
-            ${form.schedule.map((field) => `
-              <label>
-                <span>${escapeHtml(assistantService.localize(field.label, state.language))}</span>
-                <input value="${escapeAttribute(field.value)}" readonly>
-              </label>`).join("")}
+            <label><span>${escapeHtml(state.language === "en" ? "Date" : "Data")}</span><input data-assistant-meeting-field="date" type="date" value="${escapeAttribute(meeting.date)}"></label>
+            <label><span>${escapeHtml(state.language === "en" ? "Time" : "Godzina")}</span><input data-assistant-meeting-field="time" type="time" value="${escapeAttribute(meeting.time)}"></label>
+            <label><span>${escapeHtml(state.language === "en" ? "Duration" : "Czas trwania")}</span><select data-assistant-meeting-field="duration">${durationOptions}</select></label>
           </div>
-          <label class="assistant-meeting-topic">
-            <span>${escapeHtml(assistantService.localize(form.topic.label, state.language))}</span>
-            <input value="${escapeAttribute(assistantService.localize(form.topic.value, state.language))}" readonly>
-          </label>
+          <label class="assistant-meeting-topic"><span>${escapeHtml(state.language === "en" ? "Meeting topic" : "Temat spotkania")}</span><input data-assistant-meeting-field="topic" value="${escapeAttribute(meeting.topic)}"></label>
           <button class="teams-button assistant-meeting-submit" data-assistant-demo-action="${escapeAttribute(scene.actionResource || "teacher-meeting")}" type="button">${escapeHtml(assistantService.localize(scene.actionLabel, state.language))}</button>
         </article>`;
-    }
+}
 
     function bind(rootElement) {
       const questionSelect = rootElement.querySelector("[data-assistant-question]");
@@ -339,6 +337,15 @@
       rootElement.querySelectorAll("[data-assistant-demo-action]").forEach((button) => {
         button.addEventListener("click", () => showDemoNotice(button.dataset.assistantDemoAction || "default"));
       });
+
+
+      const meetingSubject = rootElement.querySelector("[data-assistant-meeting-subject]");
+      if (meetingSubject) meetingSubject.addEventListener("change", () => { assistantService.setTeacherMeetingSubject(state.assistant, meetingSubject.value); requestRender(); });
+      const meetingTeacher = rootElement.querySelector("[data-assistant-meeting-teacher]");
+      if (meetingTeacher) meetingTeacher.addEventListener("change", () => { assistantService.setTeacherMeetingTeacher(state.assistant, meetingTeacher.value); requestRender(); });
+      rootElement.querySelectorAll("[data-assistant-meeting-profile]").forEach((checkbox) => checkbox.addEventListener("change", () => { assistantService.setTeacherMeetingProfile(state.assistant, checkbox.value, checkbox.checked); requestRender(); }));
+      rootElement.querySelectorAll("[data-assistant-meeting-group]").forEach((checkbox) => checkbox.addEventListener("change", () => { assistantService.setTeacherMeetingGroup(state.assistant, checkbox.value, checkbox.checked); requestRender(); }));
+      rootElement.querySelectorAll("[data-assistant-meeting-field]").forEach((field) => field.addEventListener("change", () => assistantService.setTeacherMeetingField(state.assistant, field.dataset.assistantMeetingField, field.value)));
 
       queueChatScroll(rootElement);
 
