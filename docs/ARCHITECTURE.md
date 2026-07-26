@@ -88,6 +88,7 @@ The assistant tab follows the prototype behavior:
 
 - the student selects a prepared question or types a custom one;
 - each submitted question and answer is appended to chat history;
+- submitting a new question clears the currently active visual scene;
 - clicking an assistant answer opens the related visual scene on the right;
 - `New chat` clears the history and hides the active scene;
 - the public demo is limited to five submitted questions;
