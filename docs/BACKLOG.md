@@ -17,6 +17,7 @@ This backlog mirrors the main GitHub Issues used to build the public demo step b
 | #10 | Integration Boundary | Add Teams transition adapter | Done |
 | #11 | AI Prototype | Add AI prototype catalog and chat flow | Done |
 | #12 | Release | Prepare public demo release and GitHub Pages | Planned |
+| #27 | AI Prototype | Refine visual response panel interaction | Done |
 
 ## Product Backlog
 
@@ -37,7 +38,8 @@ This backlog mirrors the main GitHub Issues used to build the public demo step b
 
 - Provide a limited set of prepared student questions.
 - Keep chat history visible and cumulative.
-- Open visual response panels from AI answers.
+- Open visual response panels only from explicit clicks on AI answers.
+- Clear the visual response panel when a new question is submitted.
 - Make the demo status explicit: simulated assistant, not production AI.
 - Keep the AI assistant as a separate tab/screen, not a permanent side column next to the schedule.
 - Limit public demo conversation to five submitted questions.
