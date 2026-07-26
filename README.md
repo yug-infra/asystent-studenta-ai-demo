@@ -8,14 +8,14 @@ This repository is a standalone public demo extracted from a larger browser-plug
 
 ## Current Prototype Scope
 
-The current prototype focuses on the schedule workflow:
+The current prototype focuses on the schedule and assistant workflow:
 
 - showing and filtering student schedule data;
 - preparing a UI layer that can sit on top of the Teams browser experience;
-- simulating AI assistant interactions for review and competition presentation;
+- simulating AI assistant interactions through prepared questions, cumulative chat and visual response scenes;
 - demonstrating how the UI can later connect to real platform APIs through adapters.
 
-The schedule part is implemented as working frontend logic. The AI assistant area is a prototype/demo layer: it shows the intended interaction model, visual responses and future extension points, but it is not connected to a production AI or Microsoft API backend in this public demo.
+The schedule part is implemented as working frontend logic. The AI assistant tab is a prototype/demo layer: it supports prepared questions, custom-question fallback, a five-question public demo limit, chat history and visual response panels. It is not connected to a production AI or Microsoft API backend in this public demo.
 
 ## Schedule Data Note
 

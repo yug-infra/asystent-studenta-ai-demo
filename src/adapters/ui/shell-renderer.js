@@ -6,6 +6,7 @@
     const state = dependencies.state;
     const t = dependencies.translate;
     const applyTheme = dependencies.applyTheme;
+    const assistantWidget = dependencies.assistantWidget;
     const scheduleWidget = dependencies.scheduleWidget;
 
     function render() {
@@ -13,6 +14,7 @@
       rootElement.innerHTML = buildShellMarkup();
       bindEvents();
       scheduleWidget.bind(rootElement);
+      assistantWidget.bind(rootElement);
     }
 
     function buildShellMarkup() {
@@ -63,13 +65,7 @@
                 </div>
                 <span class="status-pill status-pill--demo">${t("demoBadge")}</span>
               </div>
-              <div class="chat-preview" aria-label="${t("assistantShellTitle")}">
-                <div class="chat-message chat-message--student">${t("studentQuestionPreview")}</div>
-                <div class="chat-message chat-message--assistant">
-                  <strong>${t("assistantAnswerPreview")}</strong>
-                  <button class="details-link" type="button">${t("detailsLink")}</button>
-                </div>
-              </div>
+              ${assistantWidget.render()}
             </section>
           </main>
         </div>`;
