@@ -63,9 +63,24 @@
       nextStep: "Następny krok",
       widgetsNext: "Widżety planu zajęć",
       widgetsNextCopy: "Layout jest już oddzielony od logiki, więc widżety mogą korzystać z usług aplikacyjnych zamiast mieszać dane z DOM.",
-      assistantShellTitle: "Szkic asystenta AI",
+      assistantShellTitle: "Prototyp asystenta AI",
       studentQuestionPreview: "Jakie mam teraz zajęcia?",
-      assistantAnswerPreview: "Odpowiedź asystenta będzie otwierać powiązany widok szczegółów."
+      assistantAnswerPreview: "Odpowiedź asystenta będzie otwierać powiązany widok szczegółów.",
+      assistantDemoLabel: "Tryb asystenta",
+      assistantDemoValue: "Fixture chat + wizualne sceny",
+      assistantLimit: "Limit pytań demo",
+      assistantQuestionsUsed: "pytań",
+      assistantQuestionsLeft: "pozostało",
+      assistantLimitReached: "limit demo osiągnięty",
+      assistantChat: "Pseudoczat AI",
+      assistantEmpty: "Rozmowa jest pusta. Wybierz gotowe pytanie albo wpisz własne.",
+      assistantSceneEmpty: "Wybierz odpowiedź w czacie, aby otworzyć powiązaną scenę wizualną.",
+      clickableHint: "Kliknij odpowiedź, aby otworzyć scenę",
+      assistantDone: "Wykonano",
+      assistantTodo: "Do zrobienia",
+      open: "Otwórz",
+      assistantDemoToastTitle: "Prototyp",
+      assistantDemoToastMessage: "To jest demonstracyjne przejście. W pełnej wersji zostanie podłączony prawdziwy adapter."
     },
     en: {
       appTitle: "AI Student Assistant",
@@ -124,9 +139,24 @@
       nextStep: "Next step",
       widgetsNext: "Schedule widgets",
       widgetsNextCopy: "The layout is separated from logic, so widgets can use application services instead of mixing data with the DOM.",
-      assistantShellTitle: "AI assistant sketch",
+      assistantShellTitle: "AI assistant prototype",
       studentQuestionPreview: "What classes do I have now?",
-      assistantAnswerPreview: "Assistant answers will open the related details view."
+      assistantAnswerPreview: "Assistant answers will open the related details view.",
+      assistantDemoLabel: "Assistant mode",
+      assistantDemoValue: "Fixture chat + visual scenes",
+      assistantLimit: "Demo question limit",
+      assistantQuestionsUsed: "questions",
+      assistantQuestionsLeft: "left",
+      assistantLimitReached: "demo limit reached",
+      assistantChat: "AI pseudo-chat",
+      assistantEmpty: "The conversation is empty. Choose a ready question or type your own.",
+      assistantSceneEmpty: "Select an answer in the chat to open a related visual scene.",
+      clickableHint: "Click the answer to open a scene",
+      assistantDone: "Done",
+      assistantTodo: "To do",
+      open: "Open",
+      assistantDemoToastTitle: "Prototype",
+      assistantDemoToastMessage: "This is a demo transition. The full version will connect a real adapter."
     }
   };
 
