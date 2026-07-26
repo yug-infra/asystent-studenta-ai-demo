@@ -58,14 +58,7 @@
               ${scheduleWidget.render()}
             </section>
 
-            <section class="panel panel--assistant" aria-labelledby="assistant-title">
-              <div class="panel__header">
-                <div>
-                  <p class="panel__kicker">${t("assistant")}</p>
-                  <h2 id="assistant-title">${t("assistantShellTitle")}</h2>
-                </div>
-                <span class="status-pill status-pill--demo">${t("demoBadge")}</span>
-              </div>
+            <section class="panel panel--assistant" aria-label="${t("assistant")}">
               ${assistantWidget.render()}
             </section>
           </main>

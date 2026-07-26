@@ -14,16 +14,6 @@
 
       return `
         <div class="assistant-widget">
-          <div class="assistant-toolbar">
-            <div>
-              <p class="panel__kicker">${t("assistantDemoLabel")}</p>
-              <strong>${t("assistantDemoValue")}</strong>
-            </div>
-            <div class="assistant-stats" aria-label="${t("assistantLimit")}">
-              <span><strong>${model.stats.questionsUsed}</strong> / ${model.stats.maxQuestions} ${t("assistantQuestionsUsed")}</span>
-              <span>${model.isLimitReached ? t("assistantLimitReached") : `${model.questionsLeft} ${t("assistantQuestionsLeft")}`}</span>
-            </div>
-          </div>
           <div class="assistant-workspace">
             <section class="widget-panel assistant-chat-panel" aria-label="${t("assistantChat")}">
               <div class="widget-panel__header">
