@@ -1,6 +1,9 @@
 /* /asystent-studenta-ai-demo/src/adapters/ui/assistant-widget.css */
 .assistant-widget {
   display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  height: 100%;
+  min-height: 0;
   gap: 12px;
 }
 
@@ -40,11 +43,14 @@
   display: grid;
   grid-template-columns: minmax(320px, 0.7fr) minmax(640px, 1.3fr);
   gap: 12px;
-  min-height: 560px;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .assistant-chat-panel,
 .assistant-scene-panel {
+  min-height: 0;
   display: grid;
   grid-template-rows: auto auto minmax(0, 1fr) auto;
 }
@@ -112,8 +118,7 @@
   display: grid;
   align-content: start;
   gap: 10px;
-  min-height: 320px;
-  max-height: calc(100vh - 430px);
+  min-height: 0;
   scroll-behavior: smooth;
   overflow: auto;
   padding: 14px;
@@ -268,47 +273,74 @@
 .assistant-lab,
 .assistant-priority,
 .assistant-resource-item {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  justify-content: space-between;
   gap: 12px;
   border: 1px solid var(--app-border);
   border-radius: 12px;
   background: var(--app-panel);
-  padding: 10px 12px;
+  padding: 12px;
 }
+
+.assistant-lab { min-height: 76px; }
+.assistant-lab__main { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.assistant-lab__mark { display: grid; flex: 0 0 28px; width: 28px; height: 28px; place-items: center; border-radius: 999px; background: var(--app-primary-soft); color: var(--app-primary-strong); font-weight: 950; }
+.assistant-lab[data-status="done"] .assistant-lab__mark { background: var(--app-success-soft); color: var(--app-success); }
+.assistant-lab__copy { display: grid; gap: 4px; min-width: 0; }
+.assistant-lab__actions { display: grid; justify-items: end; gap: 6px; }
+.assistant-lab__action-row { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+.assistant-lab__action { min-height: 34px; white-space: nowrap; }
+.assistant-lab__meta { margin: 0; color: var(--app-text-muted); font-size: 12px; text-align: right; }
 
 .assistant-lab[data-status="done"] {
   border-color: var(--app-border-strong);
   background: var(--app-success-soft);
 }
 
-.assistant-form-preview {
+.assistant-form-preview,
+.assistant-meeting-fields {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
 }
 
-.assistant-form-preview label {
+.assistant-form-preview label,
+.assistant-meeting-fields label,
+.assistant-meeting-topic {
   display: grid;
   gap: 5px;
 }
 
-.assistant-form-preview span {
+.assistant-form-preview span,
+.assistant-meeting-fields span,
+.assistant-meeting-topic span {
   color: var(--app-text-muted);
   font-size: 11px;
   font-weight: 800;
   text-transform: uppercase;
 }
 
-.assistant-form-preview input {
+.assistant-form-preview input,
+.assistant-meeting-fields input,
+.assistant-meeting-topic input {
+  width: 100%;
   min-height: 38px;
   border: 1px solid var(--app-border);
   border-radius: 10px;
-  background: var(--app-surface-muted);
+  background: var(--app-surface);
   color: var(--app-text);
   padding: 0 10px;
 }
+
+.assistant-meeting-note { border: 1px solid var(--app-border); border-radius: 12px; background: var(--app-primary-soft); padding: 10px 12px; font-weight: 750; }
+.assistant-meeting-group { margin: 0; border: 1px solid var(--app-border); border-radius: 12px; background: var(--app-surface); padding: 12px; }
+.assistant-meeting-group legend { color: var(--app-text); font-weight: 900; }
+.assistant-meeting-group p { margin: 0 0 8px; color: var(--app-text-muted); font-size: 12px; }
+.assistant-meeting-group div { display: flex; flex-wrap: wrap; gap: 8px; }
+.assistant-chip { display: inline-flex; align-items: center; min-height: 32px; border: 1px solid var(--app-border-strong); border-radius: 10px; background: var(--app-primary-soft); color: var(--app-primary-strong); padding: 0 10px; font-size: 12px; font-weight: 850; }
+.assistant-meeting-topic { min-width: 0; }
+.assistant-meeting-submit { justify-self: start; }
 
 @media (max-width: 1280px) {
   .assistant-workspace {
@@ -335,7 +367,8 @@
 
   .assistant-metrics,
   .assistant-resource-grid,
-  .assistant-form-preview {
+  .assistant-form-preview,
+  .assistant-meeting-fields {
     grid-template-columns: 1fr;
   }
 }
@@ -348,7 +381,11 @@
   .assistant-lab,
   .assistant-priority,
   .assistant-resource-item {
+    grid-template-columns: 1fr;
     align-items: stretch;
-    flex-direction: column;
   }
+
+  .assistant-lab__actions { justify-items: start; }
+  .assistant-lab__action-row { justify-content: flex-start; }
+  .assistant-lab__meta { text-align: left; }
 }
