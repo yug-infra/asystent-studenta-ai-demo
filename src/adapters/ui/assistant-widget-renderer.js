@@ -31,9 +31,9 @@
                 <button class="details-link" data-assistant-clear type="button">${t("newChat")}</button>
               </div>
               <div class="assistant-ready-questions">
-                <label class="filter-field">
+                <label class="filter-field assistant-question-field">
                   <span>${t("readyQuestions")}</span>
-                  <select data-assistant-question ${model.isLimitReached ? "disabled" : ""}>
+                  <select class="assistant-question-select" data-assistant-question ${model.isLimitReached ? "disabled" : ""}>
                     <option value="">${t("selectQuestion")}</option>
                     ${model.questions.map((question) => renderQuestionOption(question, model.selectedQuestionId)).join("")}
                   </select>
@@ -44,7 +44,7 @@
               </div>
               <form class="assistant-composer" data-assistant-submit>
                 <input data-assistant-input type="text" value="${escapeAttribute(model.input)}" placeholder="${t("messagePlaceholder")}" ${model.isLimitReached ? "disabled" : ""}>
-                <button class="teams-button" type="submit" ${model.isLimitReached ? "disabled" : ""}>${t("send")}</button>
+                <button class="teams-button" type="submit" ${model.isLimitReached || !model.input.trim() ? "disabled" : ""}>${t("send")}</button>
               </form>
             </section>
             <section class="widget-panel assistant-scene-panel" aria-label="${t("visualAnswer")}">
@@ -206,19 +206,37 @@
       const questionSelect = rootElement.querySelector("[data-assistant-question]");
       if (questionSelect) {
         questionSelect.addEventListener("change", () => {
-          assistantService.setSelectedQuestion(state.assistant, questionSelect.value);
+          const selectedQuestionId = questionSelect.value;
+          if (!selectedQuestionId) {
+            assistantService.setSelectedQuestion(state.assistant, "");
+            requestRender();
+            return;
+          }
+
+          assistantService.setSelectedQuestion(state.assistant, selectedQuestionId);
+          const result = assistantService.submit(state.assistant);
+          if (!result.ok && result.reason === "limit") {
+            showDemoNotice();
+          }
           requestRender();
         });
       }
 
       const input = rootElement.querySelector("[data-assistant-input]");
       if (input) {
-        input.addEventListener("change", () => {
+        const submitButton = rootElement.querySelector("[data-assistant-submit] button[type='submit']");
+        const syncComposer = () => {
           assistantService.setInput(state.assistant, input.value);
-        });
+          if (submitButton) {
+            submitButton.disabled = countStudentMessages() >= assistantService.catalog.MAX_DEMO_QUESTIONS || !input.value.trim();
+          }
+        };
+
+        input.addEventListener("input", syncComposer);
+        input.addEventListener("change", syncComposer);
         input.addEventListener("keydown", (event) => {
           if (event.key === "Enter") {
-            assistantService.setInput(state.assistant, input.value);
+            syncComposer();
           }
         });
       }
@@ -262,6 +280,10 @@
           requestRender();
         });
       }
+    }
+
+    function countStudentMessages() {
+      return (state.assistant.messages || []).filter((message) => message.role === "student").length;
     }
 
     function showDemoNotice() {

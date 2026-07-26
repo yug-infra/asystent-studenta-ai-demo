@@ -67,8 +67,8 @@
       }
 
       const answer = question ? question.answer : {
-        pl: "To pytanie nie ma jeszcze gotowej odpowiedzi w publicznym demo. Kliknij odpowiedź, aby zobaczyć scenę sugestii.",
-        en: "This question does not have a prepared answer in the public demo yet. Click the answer to open the suggestion scene."
+        pl: "Czat nie jest jeszcze podłączony do realnego AI. Ten typ pytania jest zapisany jako sugestia do dalszej implementacji. Kliknij odpowiedź, aby zobaczyć scenę sugestii.",
+        en: "The chat is not connected to real AI yet. This custom question is saved as a suggestion for future implementation. Click the answer to open the suggestion scene."
       };
       const sceneId = question ? question.sceneId : "feedback";
 
