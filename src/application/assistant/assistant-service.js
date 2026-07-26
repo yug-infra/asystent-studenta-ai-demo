@@ -7,8 +7,10 @@
       return {
         activeSceneId: "",
         input: "",
+        isThinking: false,
         messageSeq: 0,
         messages: [],
+        pendingResponse: null,
         selectedQuestionId: ""
       };
     }
@@ -19,16 +21,27 @@
       const maxQuestions = catalog.MAX_DEMO_QUESTIONS;
       const hasQuestionLimit = Number.isFinite(maxQuestions);
       const activeScene = getScene(safeState.activeSceneId);
+      const messages = (safeState.messages || []).map((message) => ({
+        ...message,
+        text: localize(message.text, lang)
+      }));
+
+      if (safeState.isThinking) {
+        messages.push({
+          id: "assistant_thinking",
+          isThinking: true,
+          role: "assistant",
+          text: ""
+        });
+      }
 
       return {
         activeScene: activeScene ? { ...activeScene, id: safeState.activeSceneId } : null,
         input: safeState.input || "",
         isLimitReached: hasQuestionLimit && questionsUsed >= maxQuestions,
+        isThinking: Boolean(safeState.isThinking),
         maxQuestions,
-        messages: (safeState.messages || []).map((message) => ({
-          ...message,
-          text: localize(message.text, lang)
-        })),
+        messages,
         questions: catalog.QUESTIONS.map((question) => ({
           id: question.id,
           label: localize(question.label, lang)
@@ -54,7 +67,11 @@
       state.input = "";
     }
 
-    function submit(state) {
+    function beginSubmit(state) {
+      if (state.isThinking) {
+        return { ok: false, reason: "thinking" };
+      }
+
       const maxQuestions = catalog.MAX_DEMO_QUESTIONS;
       if (Number.isFinite(maxQuestions) && countStudentMessages(state) >= maxQuestions) {
         return { ok: false, reason: "limit" };
@@ -81,19 +98,40 @@
         text: questionText
       });
 
+      state.activeSceneId = "";
+      state.input = "";
+      state.isThinking = true;
+      state.pendingResponse = { answer, sceneId };
+      state.selectedQuestionId = "";
+
+      return { ok: true, sceneId };
+    }
+
+    function completePendingResponse(state) {
+      if (!state.isThinking || !state.pendingResponse) {
+        return { ok: false, reason: "empty" };
+      }
+
+      const pendingResponse = state.pendingResponse;
       state.messageSeq += 1;
       state.messages.push({
         id: `assistant_message_${state.messageSeq}`,
         role: "assistant",
-        sceneId,
-        text: answer
+        sceneId: pendingResponse.sceneId,
+        text: pendingResponse.answer
       });
 
-      state.activeSceneId = "";
-      state.input = "";
-      state.selectedQuestionId = "";
+      state.isThinking = false;
+      state.pendingResponse = null;
 
-      return { ok: true, sceneId };
+      return { ok: true, sceneId: pendingResponse.sceneId };
+    }
+
+    function submit(state) {
+      const result = beginSubmit(state);
+      if (!result.ok) return result;
+      completePendingResponse(state);
+      return result;
     }
 
     function openScene(state, sceneId) {
@@ -103,7 +141,9 @@
     function clear(state) {
       state.activeSceneId = "";
       state.input = "";
+      state.isThinking = false;
       state.messages = [];
+      state.pendingResponse = null;
       state.selectedQuestionId = "";
     }
 
@@ -128,7 +168,9 @@
 
     return {
       catalog,
+      beginSubmit,
       clear,
+      completePendingResponse,
       createDefaultState,
       getViewModel,
       localize,
