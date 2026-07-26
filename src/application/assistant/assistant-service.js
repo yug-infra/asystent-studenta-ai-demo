@@ -17,12 +17,13 @@
       const safeState = state || createDefaultState();
       const questionsUsed = countStudentMessages(safeState);
       const maxQuestions = catalog.MAX_DEMO_QUESTIONS;
+      const hasQuestionLimit = Number.isFinite(maxQuestions);
       const activeScene = getScene(safeState.activeSceneId);
 
       return {
         activeScene: activeScene ? { ...activeScene, id: safeState.activeSceneId } : null,
         input: safeState.input || "",
-        isLimitReached: questionsUsed >= maxQuestions,
+        isLimitReached: hasQuestionLimit && questionsUsed >= maxQuestions,
         maxQuestions,
         messages: (safeState.messages || []).map((message) => ({
           ...message,
@@ -32,7 +33,7 @@
           id: question.id,
           label: localize(question.label, lang)
         })),
-        questionsLeft: Math.max(0, maxQuestions - questionsUsed),
+        questionsLeft: hasQuestionLimit ? Math.max(0, maxQuestions - questionsUsed) : null,
         selectedQuestionId: safeState.selectedQuestionId || "",
         stats: {
           questionsUsed,
@@ -54,7 +55,8 @@
     }
 
     function submit(state) {
-      if (countStudentMessages(state) >= catalog.MAX_DEMO_QUESTIONS) {
+      const maxQuestions = catalog.MAX_DEMO_QUESTIONS;
+      if (Number.isFinite(maxQuestions) && countStudentMessages(state) >= maxQuestions) {
         return { ok: false, reason: "limit" };
       }
 
