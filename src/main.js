@@ -13,9 +13,11 @@
     global.AsystentStudentScheduleData || [],
     app.scheduleDomain
   );
+  const assistantService = app.assistantApplication.createAssistantService(app.aiDemoCatalog);
 
   const state = {
     activeTab: "schedule",
+    assistant: assistantService.createDefaultState(),
     language: app.i18n.DEFAULT_LANGUAGE,
     theme: app.theme.createThemeState(app.theme.DEFAULT_THEME),
     scheduleFilters: scheduleService.createDefaultFilters()
@@ -38,8 +40,19 @@
     }
   });
 
+  const assistantWidget = app.uiAdapters.createAssistantWidgetRenderer({
+    state,
+    assistantService,
+    notifications: toastNotifications,
+    translate,
+    requestRender() {
+      shellRenderer.render();
+    }
+  });
+
   shellRenderer = app.uiAdapters.createShellRenderer(rootElement, {
     state,
+    assistantWidget,
     scheduleWidget,
     translate,
     applyTheme: app.theme.applyThemeToElement
