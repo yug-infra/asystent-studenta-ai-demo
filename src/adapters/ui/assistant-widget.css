@@ -376,6 +376,7 @@
 
 .assistant-form-preview input,
 .assistant-meeting-fields input,
+.assistant-meeting-fields select,
 .assistant-meeting-topic input {
   width: 100%;
   min-height: 38px;
@@ -391,7 +392,9 @@
 .assistant-meeting-group legend { color: var(--app-text); font-weight: 900; }
 .assistant-meeting-group p { margin: 0 0 8px; color: var(--app-text-muted); font-size: 12px; }
 .assistant-meeting-group div { display: flex; flex-wrap: wrap; gap: 8px; }
-.assistant-chip { display: inline-flex; align-items: center; min-height: 32px; border: 1px solid var(--app-border-strong); border-radius: 10px; background: var(--app-primary-soft); color: var(--app-primary-strong); padding: 0 10px; font-size: 12px; font-weight: 850; }
+.assistant-chip { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; border: 1px solid var(--app-border-strong); border-radius: 10px; background: var(--app-primary-soft); color: var(--app-primary-strong); padding: 0 10px; font-size: 12px; font-weight: 850; cursor: pointer; }
+.assistant-chip input { width: 14px; height: 14px; margin: 0; accent-color: var(--app-primary); }
+.assistant-chip span { color: inherit; }
 .assistant-meeting-topic { min-width: 0; }
 .assistant-meeting-submit { justify-self: start; }
 
