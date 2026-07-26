@@ -19,6 +19,7 @@ This backlog mirrors the main GitHub Issues used to build the public demo step b
 | #12 | Release | Prepare public demo release and GitHub Pages | Planned |
 | #27 | AI Prototype | Refine visual response panel interaction | Done |
 | #29 | AI Prototype | Refine prepared question submit and select styling | Done |
+| #31 | AI Prototype | Polish AI chat layout and demo scene interactions | Done |
 
 ## Product Backlog
 
