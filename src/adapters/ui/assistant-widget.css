@@ -455,11 +455,22 @@
     grid-template-rows: minmax(430px, auto) minmax(420px, auto);
   }
 
+  .assistant-chat-panel,
+  .assistant-scene-panel {
+    border-radius: 0;
+    border-inline: 0;
+  }
+
+  .assistant-chat-panel .widget-panel__header,
+  .assistant-scene-panel .widget-panel__header {
+    padding-inline: 12px;
+  }
+
   .assistant-ready-questions,
   .assistant-message-list,
   .assistant-composer,
   .assistant-scene {
-    padding-inline: 10px;
+    padding-inline: 12px;
   }
 
   .assistant-message__bubble {
@@ -470,6 +481,26 @@
 
   .assistant-composer {
     grid-template-columns: 1fr;
+  }
+
+  .assistant-scene-card {
+    gap: 12px;
+    border-inline: 0;
+    border-radius: 10px;
+    padding: 14px 12px;
+  }
+
+  .assistant-scene-card h3 {
+    font-size: 19px;
+  }
+
+  .assistant-resource-column,
+  .assistant-metric,
+  .assistant-lab,
+  .assistant-priority,
+  .assistant-resource-item,
+  .assistant-meeting-group {
+    border-radius: 10px;
   }
 
   .assistant-lab,
